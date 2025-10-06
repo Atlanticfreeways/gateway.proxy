@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>Proxy Products - Gateways Network</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<div class="nav">
+<div class="nav-left">
+<a href="index.html" class="logo">🌐 Gateways</a>
+<a href="products.html">Products</a>
+<a href="index.html#pricing">Pricing</a>
+<a href="index.html#features">Features</a>
+</div>
+<div class="nav-right">
+<button id="themeBtn" onclick="toggleTheme()" class="theme-btn">🌙</button>
+<a href="cart.html" class="cart-btn">🛒 Cart <span id="cartCount" class="cart-count" style="display:none">0</span></a>
+<div id="navUser"></div>
+</div>
+</div>
+
+<div class="hero" style="padding:4rem 2rem">
+<h1>Premium Proxy Solutions</h1>
+<p>Choose from our comprehensive range of high-performance proxy services designed for every business need</p>
+</div>
+
+<div class="container">
+<div class="section">
+<h2>🎯 Proxy Types Explained</h2>
+<div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:2rem;margin-top:2rem">
+<div style="padding:2rem;background:rgba(102,126,234,.1);border-radius:15px;border-left:4px solid #667eea">
+<h3 style="color:#667eea;margin-bottom:1rem">🔌 SOCKS5 Proxies</h3>
+<p>High-performance protocol supporting both TCP and UDP traffic with authentication. Perfect for applications requiring maximum compatibility and security.</p>
+</div>
+<div style="padding:2rem;background:rgba(0,184,148,.1);border-radius:15px;border-left:4px solid #00b894">
+<h3 style="color:#00b894;margin-bottom:1rem">🏢 ISP Proxies</h3>
+<p>Internet Service Provider proxies that combine residential authenticity with datacenter speed. Ideal for high-volume operations requiring stability.</p>
+</div>
+<div style="padding:2rem;background:rgba(253,121,168,.1);border-radius:15px;border-left:4px solid #fd79a8">
+<h3 style="color:#fd79a8;margin-bottom:1rem">🏠 Residential Proxies</h3>
+<p>Real residential IPs from actual devices and ISPs. Highest success rates for web scraping, social media, and geo-restricted content access.</p>
+</div>
+<div style="padding:2rem;background:rgba(116,185,255,.1);border-radius:15px;border-left:4px solid #74b9ff">
+<h3 style="color:#74b9ff;margin-bottom:1rem">🏭 Datacenter Proxies</h3>
+<p>High-speed proxies from data centers worldwide. Cost-effective solution for bulk operations, SEO tools, and automated tasks.</p>
+</div>
+</div>
+</div>
+
+<div class="section">
+<h2>📊 Choose by Use Case</h2>
+<div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:2rem;margin-top:2rem">
+<div style="text-align:center;padding:2rem;background:rgba(255,255,255,.8);border-radius:15px;border:2px solid rgba(102,126,234,.1)">
+<div style="font-size:3rem;margin-bottom:1rem">🔍</div>
+<h3 style="color:#667eea;margin-bottom:1rem">Web Scraping</h3>
+<p style="color:#636e72;margin-bottom:1.5rem">Extract data at scale without blocks</p>
+<div style="font-size:0.9rem;color:#00b894;font-weight:600">Recommended: Residential + ISP</div>
+</div>
+<div style="text-align:center;padding:2rem;background:rgba(255,255,255,.8);border-radius:15px;border:2px solid rgba(102,126,234,.1)">
+<div style="font-size:3rem;margin-bottom:1rem">📱</div>
+<h3 style="color:#667eea;margin-bottom:1rem">Social Media</h3>
+<p style="color:#636e72;margin-bottom:1.5rem">Manage multiple accounts safely</p>
+<div style="font-size:0.9rem;color:#00b894;font-weight:600">Recommended: Static Residential</div>
+</div>
+<div style="text-align:center;padding:2rem;background:rgba(255,255,255,.8);border-radius:15px;border:2px solid rgba(102,126,234,.1)">
+<div style="font-size:3rem;margin-bottom:1rem">🛡️</div>
+<h3 style="color:#667eea;margin-bottom:1rem">Ad Verification</h3>
+<p style="color:#636e72;margin-bottom:1.5rem">Monitor campaigns globally</p>
+<div style="font-size:0.9rem;color:#00b894;font-weight:600">Recommended: Residential</div>
+</div>
+<div style="text-align:center;padding:2rem;background:rgba(255,255,255,.8);border-radius:15px;border:2px solid rgba(102,126,234,.1)">
+<div style="font-size:3rem;margin-bottom:1rem">⚡</div>
+<h3 style="color:#667eea;margin-bottom:1rem">High Volume</h3>
+<p style="color:#636e72;margin-bottom:1.5rem">Bulk operations and automation</p>
+<div style="font-size:0.9rem;color:#00b894;font-weight:600">Recommended: Datacenter</div>
+</div>
+<div style="text-align:center;padding:2rem;background:rgba(255,255,255,.8);border-radius:15px;border:2px solid rgba(102,126,234,.1)">
+<div style="font-size:3rem;margin-bottom:1rem">🎯</div>
+<h3 style="color:#667eea;margin-bottom:1rem">SEO Tools</h3>
+<p style="color:#636e72;margin-bottom:1.5rem">Rank tracking and analysis</p>
+<div style="font-size:0.9rem;color:#00b894;font-weight:600">Recommended: ISP Proxies</div>
+</div>
+<div style="text-align:center;padding:2rem;background:rgba(255,255,255,.8);border-radius:15px;border:2px solid rgba(102,126,234,.1)">
+<div style="font-size:3rem;margin-bottom:1rem">🌍</div>
+<h3 style="color:#667eea;margin-bottom:1rem">Geo-Testing</h3>
+<p style="color:#636e72;margin-bottom:1.5rem">Location-based content access</p>
+<div style="font-size:0.9rem;color:#00b894;font-weight:600">Recommended: Unlimited</div>
+</div>
+</div>
+</div>
+
+<h1 style="text-align:center;margin:4rem 0 3rem;color:#2c3e50;font-size:2.5rem">Our Proxy Products</h1>
+<div id="productsContainer" class="products-grid"></div>
+
+<div class="section">
+<h2>🌟 Why Choose Gateways Proxies?</h2>
+<div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:2rem;margin-top:2rem">
+<div style="padding:2rem;text-align:center">
+<div style="background:rgba(102,126,234,.1);width:80px;height:80px;border-radius:50%;display:flex;align-items:center;justify-content:center;margin:0 auto 1.5rem;font-size:2rem">⚡</div>
+<h3 style="color:#667eea;margin-bottom:1rem">Lightning Fast</h3>
+<p style="color:#636e72">Sub-50ms latency with premium Tier-1 infrastructure across 50+ global locations for maximum performance.</p>
+</div>
+<div style="padding:2rem;text-align:center">
+<div style="background:rgba(0,184,148,.1);width:80px;height:80px;border-radius:50%;display:flex;align-items:center;justify-content:center;margin:0 auto 1.5rem;font-size:2rem">🌍</div>
+<h3 style="color:#00b894;margin-bottom:1rem">Global Network</h3>
+<p style="color:#636e72">Access authentic IPs from 50+ countries with city-level targeting for precise geographical requirements.</p>
+</div>
+<div style="padding:2rem;text-align:center">
+<div style="background:rgba(253,121,168,.1);width:80px;height:80px;border-radius:50%;display:flex;align-items:center;justify-content:center;margin:0 auto 1.5rem;font-size:2rem">🔒</div>
+<h3 style="color:#fd79a8;margin-bottom:1rem">Enterprise Security</h3>
+<p style="color:#636e72">Bank-grade encryption, HTTPS support, and SOC2 compliance with military-grade security protocols.</p>
+</div>
+<div style="padding:2rem;text-align:center">
+<div style="background:rgba(116,185,255,.1);width:80px;height:80px;border-radius:50%;display:flex;align-items:center;justify-content:center;margin:0 auto 1.5rem;font-size:2rem">🔄</div>
+<h3 style="color:#74b9ff;margin-bottom:1rem">Smart Rotation</h3>
+<p style="color:#636e72">Intelligent IP rotation algorithms that adapt to your needs, ensuring optimal success rates.</p>
+</div>
+<div style="padding:2rem;text-align:center">
+<div style="background:rgba(253,203,110,.1);width:80px;height:80px;border-radius:50%;display:flex;align-items:center;justify-content:center;margin:0 auto 1.5rem;font-size:2rem">📊</div>
+<h3 style="color:#e17055;margin-bottom:1rem">Real-time Analytics</h3>
+<p style="color:#636e72">Comprehensive dashboard with usage metrics, success rates, and performance insights.</p>
+</div>
+<div style="padding:2rem;text-align:center">
+<div style="background:rgba(162,155,254,.1);width:80px;height:80px;border-radius:50%;display:flex;align-items:center;justify-content:center;margin:0 auto 1.5rem;font-size:2rem">🛠️</div>
+<h3 style="color:#6c5ce7;margin-bottom:1rem">Developer Friendly</h3>
+<p style="color:#636e72">RESTful API, SDKs for popular languages, and extensive documentation for seamless integration.</p>
+</div>
+</div>
+</div>
+
+<div class="section">
+<h2>📈 Network Statistics</h2>
+<div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:2rem;margin-top:2rem">
+<div style="text-align:center;padding:2rem;background:linear-gradient(135deg,rgba(102,126,234,.1),rgba(118,75,162,.1));border-radius:15px">
+<div style="font-size:3rem;font-weight:bold;color:#667eea;margin-bottom:0.5rem">99.9%</div>
+<div style="color:#636e72;font-weight:600">Success Rate</div>
+</div>
+<div style="text-align:center;padding:2rem;background:linear-gradient(135deg,rgba(0,184,148,.1),rgba(0,206,201,.1));border-radius:15px">
+<div style="font-size:3rem;font-weight:bold;color:#00b894;margin-bottom:0.5rem">50M+</div>
+<div style="color:#636e72;font-weight:600">IP Addresses</div>
+</div>
+<div style="text-align:center;padding:2rem;background:linear-gradient(135deg,rgba(253,121,168,.1),rgba(232,67,147,.1));border-radius:15px">
+<div style="font-size:3rem;font-weight:bold;color:#fd79a8;margin-bottom:0.5rem">50+</div>
+<div style="color:#636e72;font-weight:600">Countries</div>
+</div>
+<div style="text-align:center;padding:2rem;background:linear-gradient(135deg,rgba(116,185,255,.1),rgba(9,132,227,.1));border-radius:15px">
+<div style="font-size:3rem;font-weight:bold;color:#74b9ff;margin-bottom:0.5rem">24/7</div>
+<div style="color:#636e72;font-weight:600">Expert Support</div>
+</div>
+</div>
+</div>
+
+<div class="section">
+<h2>🚀 Getting Started</h2>
+<div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:2rem;margin-top:2rem">
+<div style="text-align:center;padding:2rem">
+<div style="background:#667eea;color:white;width:50px;height:50px;border-radius:50%;display:flex;align-items:center;justify-content:center;margin:0 auto 1rem;font-weight:bold;font-size:1.5rem">1</div>
+<h3 style="color:#667eea;margin-bottom:1rem">Choose Your Plan</h3>
+<p style="color:#636e72">Select the proxy type and plan that best fits your needs and budget requirements.</p>
+</div>
+<div style="text-align:center;padding:2rem">
+<div style="background:#00b894;color:white;width:50px;height:50px;border-radius:50%;display:flex;align-items:center;justify-content:center;margin:0 auto 1rem;font-weight:bold;font-size:1.5rem">2</div>
+<h3 style="color:#00b894;margin-bottom:1rem">Sign Up & Verify</h3>
+<p style="color:#636e72">Create your account with email or Google. Quick verification process for immediate access.</p>
+</div>
+<div style="text-align:center;padding:2rem">
+<div style="background:#fd79a8;color:white;width:50px;height:50px;border-radius:50%;display:flex;align-items:center;justify-content:center;margin:0 auto 1rem;font-weight:bold;font-size:1.5rem">3</div>
+<h3 style="color:#fd79a8;margin-bottom:1rem">Start Using</h3>
+<p style="color:#636e72">Get instant access to your proxies with configuration details sent to your email.</p>
+</div>
+</div>
+</div>
+</div>
+
+<div class="footer">
+<div class="footer-content">
+<div class="footer-section">
+<h4>Gateways</h4>
+<p>The world's most reliable proxy network, trusted by thousands of businesses worldwide.</p>
+</div>
+<div class="footer-section">
+<h4>Proxy Types</h4>
+<ul>
+<li>SOCKS5 Proxies</li>
+<li>ISP Proxies</li>
+<li>Residential Proxies</li>
+<li>Datacenter Proxies</li>
+</ul>
+</div>
+<div class="footer-section">
+<h4>Support</h4>
+<ul>
+<li>Documentation</li>
+<li>API Reference</li>
+<li>Contact Us</li>
+<li>Status Page</li>
+</ul>
+</div>
+<div class="footer-section">
+<h4>Legal</h4>
+<ul>
+<li>Terms of Service</li>
+<li>Privacy Policy</li>
+<li>Acceptable Use</li>
+<li>SLA Agreement</li>
+</ul>
+</div>
+</div>
+<div class="footer-bottom">
+<p>&copy; 2024 Gateways. All rights reserved. | SOC2 Compliant | 99.9% Uptime Guarantee</p>
+</div>
+</div>
+<script src="app.js"></script>
+</body>
+</html>
