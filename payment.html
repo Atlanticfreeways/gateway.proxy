@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>Payment - Gateways</title>
+<link rel="stylesheet" href="style.css">
+<link rel="stylesheet" href="payment-styles.css">
+<script src="https://js.stripe.com/v3/"></script>
+<script src="https://www.paypal.com/sdk/js?client-id=YOUR_PAYPAL_CLIENT_ID&currency=USD"></script>
+<script src="https://js.paystack.co/v1/inline.js"></script>
+</head>
+<body>
+<div class="nav">
+<div class="nav-left">
+<a href="index.html" class="logo">🌐 Gateways</a>
+<a href="products.html">Products</a>
+<a href="wallet.html">Wallet</a>
+<a href="dashboard.html">Dashboard</a>
+</div>
+<div class="nav-right">
+<button id="themeBtn" onclick="toggleTheme()" class="theme-btn">🌙</button>
+<a href="cart.html" class="cart-btn">🛒 Cart <span id="cartCount" class="cart-count" style="display:none">0</span></a>
+<div id="navUser"></div>
+</div>
+</div>
+
+<div class="container">
+<h1>Complete Your Payment</h1>
+
+<!-- Order Summary -->
+<div class="payment-container">
+<div class="order-summary">
+<h2>Order Summary</h2>
+<div id="orderItems"></div>
+<div class="order-total">
+<div class="total-line">
+<span>Subtotal:</span>
+<span id="subtotal">$0.00</span>
+</div>
+<div class="total-line">
+<span>Tax:</span>
+<span id="tax">$0.00</span>
+</div>
+<div class="total-line final">
+<span>Total:</span>
+<span id="total">$0.00</span>
+</div>
+</div>
+</div>
+
+<!-- Payment Methods -->
+<div class="payment-methods">
+<h2>Payment Method</h2>
+
+<!-- Payment Tabs -->
+<div class="payment-tabs">
+<button class="tab-btn active" onclick="switchPaymentMethod('stripe')">💳 Stripe</button>
+<button class="tab-btn" onclick="switchPaymentMethod('paypal')">🅿️ PayPal</button>
+<button class="tab-btn" onclick="switchPaymentMethod('paystack')">🏦 Paystack</button>
+<button class="tab-btn" onclick="switchPaymentMethod('crypto')">₿ Crypto</button>
+<button class="tab-btn" onclick="switchPaymentMethod('wallet')">💰 Wallet</button>
+</div>
+
+<!-- Stripe Payment Form -->
+<div id="stripe-payment" class="payment-form active">
+<form id="payment-form">
+<div class="form-group">
+<label>Email</label>
+<input type="email" id="email" placeholder="your@email.com" required>
+</div>
+<div class="form-group">
+<label>Card Information</label>
+<div id="card-element"></div>
+<div id="card-errors" role="alert"></div>
+</div>
+<div class="form-group">
+<label>Cardholder Name</label>
+<input type="text" id="cardholder-name" placeholder="Full name on card" required>
+</div>
+<button type="submit" id="submit-payment" class="btn">
+<span id="button-text">Pay Now</span>
+<div id="spinner" class="spinner hidden"></div>
+</button>
+</form>
+</div>
+
+<!-- PayPal Payment -->
+<div id="paypal-payment" class="payment-form">
+<div id="paypal-button-container"></div>
+</div>
+
+<!-- Paystack Payment -->
+<div id="paystack-payment" class="payment-form">
+<div class="paystack-info">
+<h3>Pay with Paystack</h3>
+<p>Secure payments via Paystack (Cards, Bank Transfer, USSD)</p>
+<button id="pay-with-paystack" class="btn">Pay with Paystack</button>
+</div>
+</div>
+
+<!-- Crypto Payment -->
+<div id="crypto-payment" class="payment-form">
+<div class="crypto-options">
+<h3>Pay with Cryptocurrency</h3>
+<div class="crypto-grid">
+<div class="crypto-option" onclick="selectCrypto('BTC')">
+<div class="crypto-icon">₿</div>
+<span>Bitcoin (BTC)</span>
+</div>
+<div class="crypto-option" onclick="selectCrypto('ETH')">
+<div class="crypto-icon">Ξ</div>
+<span>Ethereum (ETH)</span>
+</div>
+<div class="crypto-option" onclick="selectCrypto('SOL')">
+<div class="crypto-icon">◎</div>
+<span>Solana (SOL)</span>
+</div>
+<div class="crypto-option" onclick="selectCrypto('USDT')">
+<div class="crypto-icon">₮</div>
+<span>Tether (USDT)</span>
+</div>
+</div>
+<div id="crypto-details" class="crypto-details" style="display:none">
+<h4>Send <span id="cryptoAmount"></span> <span id="selectedCrypto"></span> to:</h4>
+<div class="crypto-address">
+<code id="cryptoAddress"></code>
+<button onclick="copyCryptoAddress()" class="btn btn-secondary">Copy Address</button>
+</div>
+<div class="qr-code">
+<div id="qrCode">QR Code will appear here</div>
+</div>
+<p class="crypto-note">Payment will be confirmed automatically within 10 minutes</p>
+<button id="verify-crypto-payment" class="btn">Verify Payment</button>
+</div>
+</div>
+</div>
+
+<!-- Wallet Payment -->
+<div id="wallet-payment" class="payment-form">
+<div class="wallet-info">
+<h3>Pay with Wallet Balance</h3>
+<div class="balance-display">
+<span>Available Balance: $<span id="walletBalance">0.00</span></span>
+</div>
+<div class="insufficient-funds" id="insufficientFunds" style="display:none">
+<p>Insufficient balance. Please add funds to your wallet or choose another payment method.</p>
+<a href="wallet.html" class="btn btn-secondary">Add Funds</a>
+</div>
+<button id="pay-with-wallet" class="btn">Pay with Wallet</button>
+</div>
+</div>
+</div>
+</div>
+
+<!-- Security Info -->
+<div class="security-info">
+<div class="security-badges">
+<div class="badge">🔒 SSL Encrypted</div>
+<div class="badge">💳 PCI Compliant</div>
+<div class="badge">🛡️ Secure Payments</div>
+</div>
+<p>Your payment information is encrypted and secure. We never store your card details.</p>
+</div>
+</div>
+
+<script src="app.js"></script>
+<script src="payment.js"></script>
+</body>
+</html>

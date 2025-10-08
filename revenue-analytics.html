@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Revenue Analytics - Admin</title>
+    <link rel="stylesheet" href="style.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="nav-logo">
+                <a href="index.html">Gateways Proxy Admin</a>
+            </div>
+            <div class="nav-menu">
+                <a href="admin-dashboard.html">Dashboard</a>
+                <a href="user-management.html">Users</a>
+                <a href="revenue-analytics.html" class="active">Revenue</a>
+                <a href="proxy-pool.html">Proxy Pool</a>
+                <a href="index.html">Logout</a>
+            </div>
+        </div>
+    </nav>
+
+    <div class="container">
+        <div class="page-header">
+            <h1>Revenue Analytics</h1>
+            <div class="header-actions">
+                <select id="time-period">
+                    <option value="7">Last 7 Days</option>
+                    <option value="30">Last 30 Days</option>
+                    <option value="90">Last 90 Days</option>
+                    <option value="365">Last Year</option>
+                </select>
+                <button id="export-report" class="btn btn-primary">Export Report</button>
+            </div>
+        </div>
+
+        <div class="revenue-stats">
+            <div class="stat-card">
+                <h3>Total Revenue</h3>
+                <div class="stat-number" id="total-revenue">$0</div>
+                <div class="stat-change positive" id="revenue-change">+0%</div>
+            </div>
+            <div class="stat-card">
+                <h3>Monthly Recurring</h3>
+                <div class="stat-number" id="mrr">$0</div>
+                <div class="stat-change positive" id="mrr-change">+0%</div>
+            </div>
+            <div class="stat-card">
+                <h3>Average Order</h3>
+                <div class="stat-number" id="avg-order">$0</div>
+                <div class="stat-change" id="avg-change">+0%</div>
+            </div>
+            <div class="stat-card">
+                <h3>Conversion Rate</h3>
+                <div class="stat-number" id="conversion-rate">0%</div>
+                <div class="stat-change positive" id="conversion-change">+0%</div>
+            </div>
+        </div>
+
+        <div class="analytics-grid">
+            <div class="chart-card">
+                <h3>Revenue Trend</h3>
+                <canvas id="revenueChart"></canvas>
+            </div>
+            
+            <div class="chart-card">
+                <h3>Payment Methods</h3>
+                <canvas id="paymentMethodsChart"></canvas>
+            </div>
+            
+            <div class="chart-card">
+                <h3>Top Products</h3>
+                <div id="top-products" class="product-list"></div>
+            </div>
+            
+            <div class="chart-card">
+                <h3>Recent Transactions</h3>
+                <div id="recent-transactions" class="transaction-list"></div>
+            </div>
+        </div>
+    </div>
+
+    <script src="revenue-analytics.js"></script>
+</body>
+</html>

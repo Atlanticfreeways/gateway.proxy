@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>Proxy Manager - Gateways</title>
+<link rel="stylesheet" href="style.css">
+<link rel="stylesheet" href="proxy-styles.css">
+</head>
+<body>
+<div class="nav">
+<div class="nav-left">
+<a href="index.html" class="logo">🌐 Gateways</a>
+<a href="products.html">Products</a>
+<a href="wallet.html">Wallet</a>
+<a href="dashboard.html">Dashboard</a>
+<a href="proxy-manager.html">Proxies</a>
+</div>
+<div class="nav-right">
+<button id="themeBtn" onclick="toggleTheme()" class="theme-btn">🌙</button>
+<div id="navUser"></div>
+</div>
+</div>
+
+<div class="container">
+<h1>Proxy Management</h1>
+
+<!-- Proxy Endpoints -->
+<div class="section">
+<h2>🔗 Proxy Endpoints</h2>
+<div class="endpoint-generator">
+<div class="generator-controls">
+<select id="proxyType">
+<option value="http">HTTP Proxy</option>
+<option value="socks5">SOCKS5 Proxy</option>
+<option value="residential">Residential Proxy</option>
+</select>
+<select id="location">
+<option value="us">United States</option>
+<option value="uk">United Kingdom</option>
+<option value="de">Germany</option>
+<option value="jp">Japan</option>
+<option value="ca">Canada</option>
+</select>
+<button onclick="generateEndpoint()" class="btn">Generate Endpoint</button>
+</div>
+<div id="generatedEndpoints" class="endpoints-list"></div>
+</div>
+</div>
+
+<!-- Rotation Settings -->
+<div class="section">
+<h2>🔄 Rotation Settings</h2>
+<div class="rotation-config">
+<div class="config-grid">
+<div class="config-item">
+<label>Rotation Interval</label>
+<select id="rotationInterval">
+<option value="30">30 seconds</option>
+<option value="60">1 minute</option>
+<option value="300">5 minutes</option>
+<option value="600">10 minutes</option>
+<option value="1800">30 minutes</option>
+</select>
+</div>
+<div class="config-item">
+<label>Rotation Type</label>
+<select id="rotationType">
+<option value="time">Time-based</option>
+<option value="request">Request-based</option>
+<option value="random">Random</option>
+</select>
+</div>
+<div class="config-item">
+<label>Sticky Sessions</label>
+<select id="stickySession">
+<option value="disabled">Disabled</option>
+<option value="enabled">Enabled</option>
+</select>
+</div>
+</div>
+<button onclick="saveRotationSettings()" class="btn">Save Settings</button>
+</div>
+</div>
+
+<!-- IP Pool Management -->
+<div class="section">
+<h2>🌐 IP Pool Management</h2>
+<div class="pool-stats">
+<div class="stat-card">
+<h3>Total IPs</h3>
+<div class="stat-value" id="totalIPs">0</div>
+</div>
+<div class="stat-card">
+<h3>Active IPs</h3>
+<div class="stat-value" id="activeIPs">0</div>
+</div>
+<div class="stat-card">
+<h3>Blocked IPs</h3>
+<div class="stat-value" id="blockedIPs">0</div>
+</div>
+<div class="stat-card">
+<h3>Success Rate</h3>
+<div class="stat-value" id="poolSuccessRate">0%</div>
+</div>
+</div>
+
+<div class="pool-management">
+<div class="pool-controls">
+<button onclick="refreshPool()" class="btn">Refresh Pool</button>
+<button onclick="testAllIPs()" class="btn btn-secondary">Test All IPs</button>
+<button onclick="removeFailedIPs()" class="btn btn-danger">Remove Failed</button>
+</div>
+<div id="ipPoolList" class="ip-pool-list"></div>
+</div>
+</div>
+
+<!-- Connection Monitoring -->
+<div class="section">
+<h2>📊 Connection Monitoring</h2>
+<div class="monitoring-dashboard">
+<div class="monitor-stats">
+<div class="monitor-card">
+<h4>Active Connections</h4>
+<div class="monitor-value" id="activeConnections">0</div>
+</div>
+<div class="monitor-card">
+<h4>Requests/Min</h4>
+<div class="monitor-value" id="requestsPerMin">0</div>
+</div>
+<div class="monitor-card">
+<h4>Avg Response Time</h4>
+<div class="monitor-value" id="avgResponseTime">0ms</div>
+</div>
+<div class="monitor-card">
+<h4>Error Rate</h4>
+<div class="monitor-value" id="errorRate">0%</div>
+</div>
+</div>
+
+<div class="connection-log">
+<h4>Recent Connections</h4>
+<div id="connectionLog" class="log-container"></div>
+</div>
+</div>
+</div>
+
+<!-- Proxy Configuration -->
+<div class="section">
+<h2>⚙️ Configuration</h2>
+<div class="config-panel">
+<div class="config-section">
+<h4>Authentication</h4>
+<div class="form-group">
+<label>Username</label>
+<input type="text" id="proxyUsername" placeholder="proxy_user">
+</div>
+<div class="form-group">
+<label>Password</label>
+<input type="password" id="proxyPassword" placeholder="proxy_pass">
+</div>
+</div>
+<div class="config-section">
+<h4>Connection Limits</h4>
+<div class="form-group">
+<label>Max Concurrent Connections</label>
+<input type="number" id="maxConnections" value="100" min="1" max="1000">
+</div>
+<div class="form-group">
+<label>Request Timeout (seconds)</label>
+<input type="number" id="requestTimeout" value="30" min="5" max="300">
+</div>
+</div>
+<button onclick="saveProxyConfig()" class="btn">Save Configuration</button>
+</div>
+</div>
+</div>
+
+<script src="app.js"></script>
+<script src="proxy-manager.js"></script>
+</body>
+</html>

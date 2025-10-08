@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Proxy Pool Management - Admin</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="nav-logo">
+                <a href="index.html">Gateways Proxy Admin</a>
+            </div>
+            <div class="nav-menu">
+                <a href="admin-dashboard.html">Dashboard</a>
+                <a href="user-management.html">Users</a>
+                <a href="revenue-analytics.html">Revenue</a>
+                <a href="proxy-pool.html" class="active">Proxy Pool</a>
+                <a href="content-management.html">Content</a>
+                <a href="index.html">Logout</a>
+            </div>
+        </div>
+    </nav>
+
+    <div class="container">
+        <div class="page-header">
+            <h1>Proxy Pool Management</h1>
+            <div class="header-actions">
+                <button id="add-server" class="btn btn-primary">Add Server</button>
+                <button id="bulk-test" class="btn btn-secondary">Test All</button>
+            </div>
+        </div>
+
+        <div class="pool-stats">
+            <div class="stat-card">
+                <h3>Total Servers</h3>
+                <div class="stat-number" id="total-servers">0</div>
+            </div>
+            <div class="stat-card">
+                <h3>Online</h3>
+                <div class="stat-number" id="online-servers">0</div>
+            </div>
+            <div class="stat-card">
+                <h3>Load Average</h3>
+                <div class="stat-number" id="avg-load">0%</div>
+            </div>
+            <div class="stat-card">
+                <h3>Capacity</h3>
+                <div class="stat-number" id="total-capacity">0</div>
+            </div>
+        </div>
+
+        <div class="server-grid">
+            <div class="server-card">
+                <h3>Server Health</h3>
+                <div id="server-list" class="server-list"></div>
+            </div>
+            
+            <div class="server-card">
+                <h3>Load Balancing</h3>
+                <div class="load-config">
+                    <div class="config-item">
+                        <label>Algorithm</label>
+                        <select id="lb-algorithm">
+                            <option value="round-robin">Round Robin</option>
+                            <option value="least-connections">Least Connections</option>
+                            <option value="weighted">Weighted</option>
+                        </select>
+                    </div>
+                    <div class="config-item">
+                        <label>Health Check Interval</label>
+                        <input type="number" id="health-interval" value="30" min="10" max="300">
+                        <span>seconds</span>
+                    </div>
+                    <button id="apply-config" class="btn btn-primary">Apply</button>
+                </div>
+            </div>
+        </div>
+
+        <div class="capacity-planning">
+            <h3>Capacity Planning</h3>
+            <div class="capacity-grid">
+                <div class="capacity-item">
+                    <h4>Current Usage</h4>
+                    <div class="usage-bar">
+                        <div class="usage-fill" id="current-usage" style="width: 65%"></div>
+                    </div>
+                    <span>65% of capacity</span>
+                </div>
+                <div class="capacity-item">
+                    <h4>Projected Growth</h4>
+                    <div class="growth-chart">
+                        <div class="growth-bar" style="height: 40%"></div>
+                        <div class="growth-bar" style="height: 60%"></div>
+                        <div class="growth-bar" style="height: 80%"></div>
+                        <div class="growth-bar" style="height: 95%"></div>
+                    </div>
+                </div>
+                <div class="capacity-item">
+                    <h4>Recommendations</h4>
+                    <div id="recommendations" class="recommendations">
+                        <div class="recommendation">Add 2 servers in next 30 days</div>
+                        <div class="recommendation">Consider upgrading US-East region</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Add Server Modal -->
+    <div id="server-modal" class="modal hidden">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>Add New Server</h3>
+                <button id="close-modal">×</button>
+            </div>
+            <form id="server-form">
+                <div class="form-group">
+                    <label>Server IP</label>
+                    <input type="text" id="server-ip" required>
+                </div>
+                <div class="form-group">
+                    <label>Port</label>
+                    <input type="number" id="server-port" value="8080" required>
+                </div>
+                <div class="form-group">
+                    <label>Region</label>
+                    <select id="server-region">
+                        <option value="us-east">US East</option>
+                        <option value="us-west">US West</option>
+                        <option value="eu-west">EU West</option>
+                        <option value="asia">Asia</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label>Type</label>
+                    <select id="server-type">
+                        <option value="residential">Residential</option>
+                        <option value="datacenter">Datacenter</option>
+                        <option value="mobile">Mobile</option>
+                    </select>
+                </div>
+                <button type="submit" class="btn btn-primary">Add Server</button>
+            </form>
+        </div>
+    </div>
+
+    <script src="proxy-pool.js"></script>
+</body>
+</html>

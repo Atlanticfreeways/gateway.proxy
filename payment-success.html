@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>Payment Success - Gateways</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<div class="nav">
+<div class="nav-left">
+<a href="index.html" class="logo">🌐 Gateways</a>
+<a href="products.html">Products</a>
+<a href="wallet.html">Wallet</a>
+<a href="dashboard.html">Dashboard</a>
+</div>
+<div class="nav-right">
+<button id="themeBtn" onclick="toggleTheme()" class="theme-btn">🌙</button>
+<div id="navUser"></div>
+</div>
+</div>
+
+<div class="container">
+<div class="success-container">
+<div class="success-icon">✅</div>
+<h1>Payment Successful!</h1>
+<p>Thank you for your purchase. Your proxy services are now active.</p>
+
+<div class="success-details">
+<h3>Order Details</h3>
+<div id="orderDetails"></div>
+</div>
+
+<div class="next-steps">
+<h3>What's Next?</h3>
+<div class="steps-grid">
+<div class="step">
+<div class="step-number">1</div>
+<div class="step-content">
+<strong>Access Dashboard</strong>
+<p>View your active proxies and usage statistics</p>
+</div>
+</div>
+<div class="step">
+<div class="step-number">2</div>
+<div class="step-content">
+<strong>Get API Keys</strong>
+<p>Generate API keys for integration</p>
+</div>
+</div>
+<div class="step">
+<div class="step-number">3</div>
+<div class="step-content">
+<strong>Start Using</strong>
+<p>Begin using your proxy services immediately</p>
+</div>
+</div>
+</div>
+</div>
+
+<div class="action-buttons">
+<a href="dashboard-enhanced.html" class="btn">Go to Dashboard</a>
+<a href="products.html" class="btn btn-secondary">Buy More</a>
+</div>
+</div>
+</div>
+
+<script src="app.js"></script>
+<script>
+// Load order details
+document.addEventListener('DOMContentLoaded', function() {
+    const purchaseHistory = JSON.parse(localStorage.getItem('purchaseHistory')) || [];
+    const latestOrder = purchaseHistory[0];
+    
+    if (latestOrder) {
+        document.getElementById('orderDetails').innerHTML = `
+            <div class="detail-row">
+                <span>Order ID:</span>
+                <span>#${latestOrder.id}</span>
+            </div>
+            <div class="detail-row">
+                <span>Amount:</span>
+                <span>$${latestOrder.amount.toFixed(2)}</span>
+            </div>
+            <div class="detail-row">
+                <span>Payment Method:</span>
+                <span>${latestOrder.method.toUpperCase()}</span>
+            </div>
+            <div class="detail-row">
+                <span>Date:</span>
+                <span>${new Date(latestOrder.date).toLocaleDateString()}</span>
+            </div>
+        `;
+    }
+});
+</script>
+
+<style>
+.success-container{text-align:center;max-width:600px;margin:4rem auto;padding:2rem}
+.success-icon{font-size:4rem;margin-bottom:1rem}
+.success-container h1{color:#10b981;margin-bottom:1rem}
+.success-container p{color:#64748b;margin-bottom:2rem}
+.success-details{background:#f8fafc;padding:2rem;border-radius:8px;margin:2rem 0;text-align:left}
+.detail-row{display:flex;justify-content:space-between;margin-bottom:0.5rem;padding:0.5rem 0;border-bottom:1px solid #e2e8f0}
+.steps-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:1.5rem;margin:2rem 0}
+.step{display:flex;gap:1rem;text-align:left}
+.step-number{background:#3b82f6;color:white;width:30px;height:30px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-weight:600;flex-shrink:0}
+.action-buttons{display:flex;gap:1rem;justify-content:center;margin-top:2rem}
+</style>
+</body>
+</html>

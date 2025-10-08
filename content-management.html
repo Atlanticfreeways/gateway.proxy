@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Content Management - Admin</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="nav-logo">
+                <a href="index.html">Gateways Proxy Admin</a>
+            </div>
+            <div class="nav-menu">
+                <a href="admin-dashboard.html">Dashboard</a>
+                <a href="user-management.html">Users</a>
+                <a href="revenue-analytics.html">Revenue</a>
+                <a href="proxy-pool.html">Proxy Pool</a>
+                <a href="content-management.html" class="active">Content</a>
+                <a href="index.html">Logout</a>
+            </div>
+        </div>
+    </nav>
+
+    <div class="container">
+        <div class="page-header">
+            <h1>Content Management</h1>
+            <div class="header-actions">
+                <button id="save-all" class="btn btn-primary">Save All Changes</button>
+                <button id="preview-site" class="btn btn-secondary">Preview Site</button>
+            </div>
+        </div>
+
+        <div class="content-tabs">
+            <button class="tab-btn active" data-tab="pricing">Pricing</button>
+            <button class="tab-btn" data-tab="features">Features</button>
+            <button class="tab-btn" data-tab="seo">SEO</button>
+        </div>
+
+        <!-- Pricing Tab -->
+        <div id="pricing-tab" class="tab-content active">
+            <h3>Pricing Plans</h3>
+            <div class="pricing-editor">
+                <div class="plan-card">
+                    <div class="plan-header">
+                        <input type="text" id="plan1-name" value="Starter" class="plan-name-input">
+                        <input type="number" id="plan1-price" value="9.99" class="plan-price-input">
+                    </div>
+                    <textarea id="plan1-features" class="plan-features-input" rows="5">
+• 1GB bandwidth
+• 10 concurrent connections
+• Basic support
+• HTTP/HTTPS protocols
+• 99.9% uptime</textarea>
+                    <div class="plan-controls">
+                        <label><input type="checkbox" id="plan1-popular"> Popular</label>
+                        <label><input type="checkbox" id="plan1-enabled" checked> Enabled</label>
+                    </div>
+                </div>
+
+                <div class="plan-card">
+                    <div class="plan-header">
+                        <input type="text" id="plan2-name" value="Professional" class="plan-name-input">
+                        <input type="number" id="plan2-price" value="29.99" class="plan-price-input">
+                    </div>
+                    <textarea id="plan2-features" class="plan-features-input" rows="5">
+• 10GB bandwidth
+• 50 concurrent connections
+• Priority support
+• All protocols
+• 99.9% uptime</textarea>
+                    <div class="plan-controls">
+                        <label><input type="checkbox" id="plan2-popular" checked> Popular</label>
+                        <label><input type="checkbox" id="plan2-enabled" checked> Enabled</label>
+                    </div>
+                </div>
+
+                <div class="plan-card">
+                    <div class="plan-header">
+                        <input type="text" id="plan3-name" value="Enterprise" class="plan-name-input">
+                        <input type="number" id="plan3-price" value="99.99" class="plan-price-input">
+                    </div>
+                    <textarea id="plan3-features" class="plan-features-input" rows="5">
+• Unlimited bandwidth
+• Unlimited connections
+• 24/7 dedicated support
+• All protocols + SOCKS5
+• 99.99% uptime</textarea>
+                    <div class="plan-controls">
+                        <label><input type="checkbox" id="plan3-popular"> Popular</label>
+                        <label><input type="checkbox" id="plan3-enabled" checked> Enabled</label>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Features Tab -->
+        <div id="features-tab" class="tab-content">
+            <h3>Feature Toggles</h3>
+            <div class="feature-toggles">
+                <div class="toggle-item">
+                    <label>
+                        <input type="checkbox" id="feature-crypto" checked>
+                        <span class="toggle-slider"></span>
+                        Cryptocurrency Payments
+                    </label>
+                </div>
+                <div class="toggle-item">
+                    <label>
+                        <input type="checkbox" id="feature-referral">
+                        <span class="toggle-slider"></span>
+                        Referral Program
+                    </label>
+                </div>
+                <div class="toggle-item">
+                    <label>
+                        <input type="checkbox" id="feature-api" checked>
+                        <span class="toggle-slider"></span>
+                        API Access
+                    </label>
+                </div>
+                <div class="toggle-item">
+                    <label>
+                        <input type="checkbox" id="feature-support" checked>
+                        <span class="toggle-slider"></span>
+                        Live Chat Support
+                    </label>
+                </div>
+                <div class="toggle-item">
+                    <label>
+                        <input type="checkbox" id="feature-analytics" checked>
+                        <span class="toggle-slider"></span>
+                        Usage Analytics
+                    </label>
+                </div>
+            </div>
+
+            <h3>Site Content</h3>
+            <div class="content-editor">
+                <div class="editor-group">
+                    <label>Homepage Title</label>
+                    <input type="text" id="homepage-title" value="Professional Proxy Services">
+                </div>
+                <div class="editor-group">
+                    <label>Homepage Subtitle</label>
+                    <textarea id="homepage-subtitle" rows="2">Fast, reliable, and secure proxy solutions for businesses worldwide</textarea>
+                </div>
+                <div class="editor-group">
+                    <label>Contact Email</label>
+                    <input type="email" id="contact-email" value="support@gateways-proxy.com">
+                </div>
+            </div>
+        </div>
+
+        <!-- SEO Tab -->
+        <div id="seo-tab" class="tab-content">
+            <h3>SEO Settings</h3>
+            <div class="seo-editor">
+                <div class="editor-group">
+                    <label>Site Title</label>
+                    <input type="text" id="seo-title" value="Gateways Proxy - Professional Proxy Services">
+                </div>
+                <div class="editor-group">
+                    <label>Meta Description</label>
+                    <textarea id="seo-description" rows="3">Professional proxy services with 99.9% uptime. Fast, secure, and reliable proxy solutions for businesses. Multiple payment options including cryptocurrency.</textarea>
+                </div>
+                <div class="editor-group">
+                    <label>Keywords</label>
+                    <input type="text" id="seo-keywords" value="proxy, VPN, secure browsing, business proxy, residential proxy">
+                </div>
+                <div class="editor-group">
+                    <label>Canonical URL</label>
+                    <input type="url" id="seo-canonical" value="https://gateways-proxy.com">
+                </div>
+            </div>
+
+            <h3>Analytics</h3>
+            <div class="analytics-config">
+                <div class="editor-group">
+                    <label>Google Analytics ID</label>
+                    <input type="text" id="ga-id" placeholder="G-XXXXXXXXXX">
+                </div>
+                <div class="editor-group">
+                    <label>Google Tag Manager ID</label>
+                    <input type="text" id="gtm-id" placeholder="GTM-XXXXXXX">
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="content-management.js"></script>
+</body>
+</html>

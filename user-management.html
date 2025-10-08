@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>User Management - Admin</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="nav-logo">
+                <a href="index.html">Gateways Proxy Admin</a>
+            </div>
+            <div class="nav-menu">
+                <a href="admin-dashboard.html">Dashboard</a>
+                <a href="user-management.html" class="active">Users</a>
+                <a href="revenue-analytics.html">Revenue</a>
+                <a href="proxy-pool.html">Proxy Pool</a>
+                <a href="index.html">Logout</a>
+            </div>
+        </div>
+    </nav>
+
+    <div class="container">
+        <div class="page-header">
+            <h1>User Management</h1>
+            <div class="header-actions">
+                <input type="text" id="search-users" placeholder="Search users...">
+                <select id="filter-status">
+                    <option value="all">All Users</option>
+                    <option value="active">Active</option>
+                    <option value="suspended">Suspended</option>
+                    <option value="pending">Pending</option>
+                </select>
+            </div>
+        </div>
+
+        <div class="user-stats">
+            <div class="stat-card">
+                <h3>Total Users</h3>
+                <div class="stat-number" id="total-users">0</div>
+            </div>
+            <div class="stat-card">
+                <h3>Active Users</h3>
+                <div class="stat-number" id="active-users">0</div>
+            </div>
+            <div class="stat-card">
+                <h3>Suspended</h3>
+                <div class="stat-number" id="suspended-users">0</div>
+            </div>
+            <div class="stat-card">
+                <h3>New Today</h3>
+                <div class="stat-number" id="new-users">0</div>
+            </div>
+        </div>
+
+        <div class="user-table-container">
+            <table class="user-table">
+                <thead>
+                    <tr>
+                        <th>User</th>
+                        <th>Email</th>
+                        <th>Status</th>
+                        <th>Joined</th>
+                        <th>Usage</th>
+                        <th>Revenue</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody id="user-table-body">
+                </tbody>
+            </table>
+        </div>
+
+        <div class="bulk-actions">
+            <select id="bulk-action">
+                <option value="">Bulk Actions</option>
+                <option value="suspend">Suspend Selected</option>
+                <option value="activate">Activate Selected</option>
+                <option value="delete">Delete Selected</option>
+            </select>
+            <button id="apply-bulk" class="btn btn-secondary">Apply</button>
+        </div>
+    </div>
+
+    <!-- User Details Modal -->
+    <div id="user-modal" class="modal hidden">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>User Details</h3>
+                <button id="close-modal">×</button>
+            </div>
+            <div id="user-details"></div>
+            <div class="modal-actions">
+                <button id="suspend-user" class="btn btn-warning">Suspend</button>
+                <button id="delete-user" class="btn btn-danger">Delete</button>
+                <button id="send-message" class="btn btn-primary">Send Message</button>
+            </div>
+        </div>
+    </div>
+
+    <script src="user-management.js"></script>
+</body>
+</html>

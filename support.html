@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Support - Gateways Proxy</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="support-styles.css">
+</head>
+<body>
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="nav-logo">
+                <a href="index.html">Gateways Proxy</a>
+            </div>
+            <div class="nav-menu">
+                <a href="dashboard-enhanced.html">Dashboard</a>
+                <a href="support.html" class="active">Support</a>
+                <a href="proxy-manager.html">Proxies</a>
+                <a href="login.html">Logout</a>
+            </div>
+        </div>
+    </nav>
+
+    <div class="container">
+        <div class="support-header">
+            <h1>Support Center</h1>
+            <p>Get help with your proxy services</p>
+        </div>
+
+        <div class="support-grid">
+            <!-- Live Chat -->
+            <div class="support-card">
+                <h3>💬 Live Chat</h3>
+                <p>Chat with our support team in real-time</p>
+                <button id="start-chat" class="btn btn-primary">Start Chat</button>
+                <div id="chat-widget" class="chat-widget hidden">
+                    <div class="chat-header">
+                        <span>Support Chat</span>
+                        <button id="close-chat">×</button>
+                    </div>
+                    <div id="chat-messages" class="chat-messages"></div>
+                    <div class="chat-input">
+                        <input type="text" id="chat-message" placeholder="Type your message...">
+                        <button id="send-message">Send</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Support Tickets -->
+            <div class="support-card">
+                <h3>🎫 Support Tickets</h3>
+                <p>Create and track support tickets</p>
+                <button id="create-ticket" class="btn btn-secondary">Create Ticket</button>
+                <div id="tickets-list" class="tickets-list"></div>
+            </div>
+
+            <!-- FAQ -->
+            <div class="support-card full-width">
+                <h3>❓ Frequently Asked Questions</h3>
+                <div class="faq-list">
+                    <div class="faq-item">
+                        <div class="faq-question">How do I set up my first proxy?</div>
+                        <div class="faq-answer">Go to Proxy Manager, click "Generate Endpoint", select your configuration, and copy the generated proxy URL.</div>
+                    </div>
+                    <div class="faq-item">
+                        <div class="faq-question">What payment methods do you accept?</div>
+                        <div class="faq-answer">We accept Stripe, PayPal, Paystack, and cryptocurrencies (BTC, ETH, SOL, USDT).</div>
+                    </div>
+                    <div class="faq-item">
+                        <div class="faq-question">How do I check my usage?</div>
+                        <div class="faq-answer">Visit your Dashboard to see real-time usage statistics, bandwidth consumption, and connection logs.</div>
+                    </div>
+                    <div class="faq-item">
+                        <div class="faq-question">Can I get a refund?</div>
+                        <div class="faq-answer">Yes, we offer a 7-day money-back guarantee for all new subscriptions.</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Ticket Modal -->
+    <div id="ticket-modal" class="modal hidden">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>Create Support Ticket</h3>
+                <button id="close-modal">×</button>
+            </div>
+            <form id="ticket-form">
+                <div class="form-group">
+                    <label>Subject</label>
+                    <input type="text" id="ticket-subject" required>
+                </div>
+                <div class="form-group">
+                    <label>Priority</label>
+                    <select id="ticket-priority">
+                        <option value="low">Low</option>
+                        <option value="medium">Medium</option>
+                        <option value="high">High</option>
+                        <option value="urgent">Urgent</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label>Description</label>
+                    <textarea id="ticket-description" rows="5" required></textarea>
+                </div>
+                <button type="submit" class="btn btn-primary">Create Ticket</button>
+            </form>
+        </div>
+    </div>
+
+    <script src="support.js"></script>
+</body>
+</html>
