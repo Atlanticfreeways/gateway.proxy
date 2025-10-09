@@ -11,16 +11,32 @@
     <nav class="navbar">
         <div class="nav-container">
             <div class="nav-logo">
-                <a href="dashboard.html">Gateways Proxy</a>
+                <a href="dashboard.html">Freeway Cards</a>
             </div>
-            <div class="nav-menu">
+            <button class="mobile-menu-toggle" onclick="toggleMobileMenu()">
+                <span></span>
+                <span></span>
+                <span></span>
+            </button>
+            <div class="nav-menu" id="nav-menu">
                 <a href="dashboard.html" class="active">Dashboard</a>
-                <a href="proxies.html">Proxies</a>
-                <a href="billing.html">Billing</a>
-                <a href="support.html">Support</a>
+                <a href="cards.html">Cards</a>
+                <a href="wallet.html">Wallet</a>
+                <a href="profile.html">Profile</a>
                 <div class="user-menu">
-                    <span id="user-name">User</span>
-                    <button onclick="logout()" class="btn btn-secondary">Logout</button>
+                    <div class="user-dropdown">
+                        <button class="user-button" onclick="toggleUserMenu()">
+                            <span id="user-name">User</span>
+                            <span class="dropdown-arrow">▼</span>
+                        </button>
+                        <div id="user-dropdown-menu" class="dropdown-menu hidden">
+                            <a href="profile.html">Profile Settings</a>
+                            <a href="wallet.html">Wallet</a>
+                            <a href="support.html">Support</a>
+                            <hr>
+                            <button onclick="logout()" class="logout-btn">Logout</button>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
@@ -29,24 +45,24 @@
     <div class="container">
         <div class="dashboard-header">
             <h1>Welcome back, <span id="welcome-name">User</span></h1>
-            <p>Here's your proxy service overview</p>
+            <p>Here's your account overview</p>
         </div>
 
         <div class="stats-grid">
             <div class="stat-card">
-                <h3>Active Proxies</h3>
-                <div class="stat-number" id="active-proxies">0</div>
+                <h3>Active Cards</h3>
+                <div class="stat-number" id="active-cards">0</div>
                 <div class="stat-change positive">+2 this week</div>
             </div>
             <div class="stat-card">
-                <h3>Data Usage</h3>
-                <div class="stat-number" id="data-usage">0 GB</div>
-                <div class="stat-change">of 10 GB limit</div>
+                <h3>Wallet Balance</h3>
+                <div class="stat-number" id="wallet-balance">$0.00</div>
+                <div class="stat-change">Available funds</div>
             </div>
             <div class="stat-card">
-                <h3>Connections</h3>
-                <div class="stat-number" id="connections">0</div>
-                <div class="stat-change positive">24h average</div>
+                <h3>This Month</h3>
+                <div class="stat-number" id="monthly-spending">$0</div>
+                <div class="stat-change positive">Total spending</div>
             </div>
             <div class="stat-card">
                 <h3>Account Status</h3>
@@ -57,52 +73,53 @@
 
         <div class="dashboard-grid">
             <div class="dashboard-card">
-                <h3>Usage Analytics</h3>
-                <canvas id="usageChart"></canvas>
+                <h3>My Cards</h3>
+                <div id="cards-overview" class="cards-overview">
+                    <!-- Cards will be loaded here -->
+                </div>
+                <div class="card-actions">
+                    <a href="cards.html" class="btn btn-primary">View All Cards</a>
+                    <button onclick="openCreateCardModal()" class="btn btn-secondary">Create New</button>
+                </div>
+            </div>
+            
+            <div class="dashboard-card">
+                <h3>Spending Analytics</h3>
+                <canvas id="spendingChart"></canvas>
+            </div>
+            
+            <div class="dashboard-card">
+                <h3>Recent Transactions</h3>
+                <div id="recent-transactions" class="transactions-feed">
+                    <!-- Transactions will be loaded here -->
+                </div>
+                <a href="wallet.html" class="view-all-link">View all transactions →</a>
             </div>
             
             <div class="dashboard-card">
                 <h3>Quick Actions</h3>
                 <div class="quick-actions">
-                    <a href="proxies.html" class="action-btn">
-                        <h4>Create Proxy</h4>
-                        <p>Generate new proxy endpoint</p>
-                    </a>
-                    <a href="billing.html" class="action-btn">
-                        <h4>Upgrade Plan</h4>
-                        <p>Increase your limits</p>
+                    <button onclick="openCreateCardModal()" class="action-btn">
+                        <div class="action-icon">💳</div>
+                        <div class="action-content">
+                            <h4>Create Card</h4>
+                            <p>Generate new virtual card</p>
+                        </div>
+                    </button>
+                    <a href="wallet.html" class="action-btn">
+                        <div class="action-icon">💰</div>
+                        <div class="action-content">
+                            <h4>Fund Wallet</h4>
+                            <p>Add money to your account</p>
+                        </div>
                     </a>
                     <a href="support.html" class="action-btn">
-                        <h4>Get Support</h4>
-                        <p>Contact our team</p>
+                        <div class="action-icon">🎧</div>
+                        <div class="action-content">
+                            <h4>Get Support</h4>
+                            <p>Contact our team</p>
+                        </div>
                     </a>
-                </div>
-            </div>
-            
-            <div class="dashboard-card">
-                <h3>Recent Activity</h3>
-                <div id="recent-activity" class="activity-list">
-                    <div class="activity-item">
-                        <div class="activity-icon">🔗</div>
-                        <div class="activity-content">
-                            <div class="activity-title">Proxy endpoint created</div>
-                            <div class="activity-time">2 hours ago</div>
-                        </div>
-                    </div>
-                    <div class="activity-item">
-                        <div class="activity-icon">💳</div>
-                        <div class="activity-content">
-                            <div class="activity-title">Payment processed</div>
-                            <div class="activity-time">1 day ago</div>
-                        </div>
-                    </div>
-                    <div class="activity-item">
-                        <div class="activity-icon">📊</div>
-                        <div class="activity-content">
-                            <div class="activity-title">Monthly report generated</div>
-                            <div class="activity-time">3 days ago</div>
-                        </div>
-                    </div>
                 </div>
             </div>
         </div>
@@ -138,38 +155,120 @@
 
         // Load user statistics
         function loadUserStats() {
-            const proxies = JSON.parse(localStorage.getItem('proxies') || '[]');
-            const userProxies = proxies.filter(p => p.userId === JSON.parse(localStorage.getItem('currentUser')).email);
+            const currentUser = JSON.parse(localStorage.getItem('currentUser'));
+            const cards = JSON.parse(localStorage.getItem('userCards') || '[]');
+            const wallets = JSON.parse(localStorage.getItem('wallets') || '{}');
             
-            document.getElementById('active-proxies').textContent = userProxies.length;
-            document.getElementById('data-usage').textContent = '2.5 GB';
-            document.getElementById('connections').textContent = '156';
+            const userCards = cards.filter(c => c.userId === currentUser.email);
+            const activeCards = userCards.filter(c => c.status === 'active');
+            const userWallet = wallets[currentUser.email] || { balance: 0, transactions: [] };
+            
+            // Calculate monthly spending from wallet transactions
+            const monthlySpending = userWallet.transactions
+                .filter(t => {
+                    const transactionDate = new Date(t.date);
+                    const now = new Date();
+                    return transactionDate.getMonth() === now.getMonth() && 
+                           transactionDate.getFullYear() === now.getFullYear() &&
+                           t.type === 'debit';
+                })
+                .reduce((sum, t) => sum + t.amount, 0);
+            
+            document.getElementById('active-cards').textContent = activeCards.length;
+            document.getElementById('wallet-balance').textContent = `$${userWallet.balance.toFixed(2)}`;
+            document.getElementById('monthly-spending').textContent = `$${monthlySpending.toFixed(2)}`;
         }
 
-        // Create usage chart
-        function createUsageChart() {
-            const ctx = document.getElementById('usageChart').getContext('2d');
+        // Load cards overview
+        function loadCardsOverview() {
+            const cards = JSON.parse(localStorage.getItem('userCards') || '[]');
+            const userCards = cards.filter(c => c.userId === JSON.parse(localStorage.getItem('currentUser')).email);
+            const cardsOverview = document.getElementById('cards-overview');
+            
+            if (userCards.length === 0) {
+                cardsOverview.innerHTML = '<div class="empty-cards"><p>No cards yet</p><button onclick="openCreateCardModal()" class="btn btn-primary">Create Your First Card</button></div>';
+                return;
+            }
+            
+            cardsOverview.innerHTML = userCards.slice(0, 3).map(card => `
+                <div class="card-mini ${card.type} ${card.status}">
+                    <div class="card-mini-brand">${card.type.toUpperCase()}</div>
+                    <div class="card-mini-name">${card.name}</div>
+                    <div class="card-mini-balance">$${card.balance.toFixed(2)}</div>
+                    <div class="card-mini-status ${card.status}">${card.status}</div>
+                </div>
+            `).join('');
+        }
+        
+        // Load recent transactions
+        function loadRecentTransactions() {
+            const wallets = JSON.parse(localStorage.getItem('wallets') || '{}');
+            const currentUser = JSON.parse(localStorage.getItem('currentUser'));
+            const userWallet = wallets[currentUser.email];
+            const transactionsFeed = document.getElementById('recent-transactions');
+            
+            if (!userWallet || userWallet.transactions.length === 0) {
+                transactionsFeed.innerHTML = '<div class="empty-transactions"><p>No transactions yet</p></div>';
+                return;
+            }
+            
+            const recentTransactions = userWallet.transactions.slice(0, 5);
+            transactionsFeed.innerHTML = recentTransactions.map(transaction => `
+                <div class="transaction-mini">
+                    <div class="transaction-mini-info">
+                        <div class="transaction-mini-desc">${transaction.description}</div>
+                        <div class="transaction-mini-date">${new Date(transaction.date).toLocaleDateString()}</div>
+                    </div>
+                    <div class="transaction-mini-amount ${transaction.type}">
+                        ${transaction.type === 'credit' ? '+' : '-'}$${transaction.amount.toFixed(2)}
+                    </div>
+                </div>
+            `).join('');
+        }
+        
+        // Create spending chart
+        function createSpendingChart() {
+            const ctx = document.getElementById('spendingChart').getContext('2d');
             new Chart(ctx, {
-                type: 'line',
+                type: 'doughnut',
                 data: {
-                    labels: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'],
+                    labels: ['Cards', 'Transfers', 'Fees'],
                     datasets: [{
-                        label: 'Data Usage (GB)',
-                        data: [0.5, 0.8, 1.2, 0.9, 1.5, 2.1, 1.8],
-                        borderColor: '#2563eb',
-                        backgroundColor: 'rgba(37, 99, 235, 0.1)',
-                        tension: 0.4,
-                        fill: true
+                        data: [65, 30, 5],
+                        backgroundColor: ['#2563eb', '#059669', '#dc2626']
                     }]
                 },
                 options: {
                     responsive: true,
-                    plugins: { legend: { display: false } },
-                    scales: { y: { beginAtZero: true } }
+                    plugins: { legend: { position: 'bottom' } }
                 }
             });
         }
 
+        // User menu toggle
+        function toggleUserMenu() {
+            const dropdown = document.getElementById('user-dropdown-menu');
+            dropdown.classList.toggle('hidden');
+        }
+        
+        // Mobile menu toggle
+        function toggleMobileMenu() {
+            const navMenu = document.getElementById('nav-menu');
+            const toggle = document.querySelector('.mobile-menu-toggle');
+            navMenu.classList.toggle('mobile-active');
+            toggle.classList.toggle('active');
+        }
+        
+        // Close dropdown when clicking outside
+        document.addEventListener('click', function(event) {
+            const userMenu = document.querySelector('.user-dropdown');
+            const dropdown = document.getElementById('user-dropdown-menu');
+            
+            if (!userMenu.contains(event.target)) {
+                dropdown.classList.add('hidden');
+            }
+        });
+        
         // Logout function
         function logout() {
             localStorage.removeItem('currentUser');
@@ -177,6 +276,27 @@
             window.location.href = 'index.html';
         }
 
+        // Open create card modal
+        function openCreateCardModal() {
+            window.location.href = 'cards.html';
+        }
+        
+        // Initialize dashboard
+        function initDashboard() {
+            const user = checkAuth();
+            if (!user) return;
+            
+            // Update user info
+            document.getElementById('user-name').textContent = user.name;
+            document.getElementById('welcome-name').textContent = user.name;
+            
+            // Load all dashboard data
+            loadUserStats();
+            loadCardsOverview();
+            loadRecentTransactions();
+            createSpendingChart();
+        }
+        
         // Initialize on page load
         document.addEventListener('DOMContentLoaded', initDashboard);
     </script>

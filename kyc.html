@@ -1,0 +1,310 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>KYC Verification - Freeway Cards</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="nav-logo">
+                <a href="dashboard.html">Freeway Cards</a>
+            </div>
+            <button class="mobile-menu-toggle" onclick="toggleMobileMenu()">
+                <span></span>
+                <span></span>
+                <span></span>
+            </button>
+            <div class="nav-menu" id="nav-menu">
+                <a href="dashboard.html">Dashboard</a>
+                <a href="cards.html">Cards</a>
+                <a href="wallet.html">Wallet</a>
+                <a href="profile.html">Profile</a>
+                <div class="user-menu">
+                    <div class="user-dropdown">
+                        <button class="user-button" onclick="toggleUserMenu()">
+                            <span id="user-name">User</span>
+                            <span class="dropdown-arrow">▼</span>
+                        </button>
+                        <div id="user-dropdown-menu" class="dropdown-menu hidden">
+                            <a href="profile.html">Profile Settings</a>
+                            <a href="wallet.html">Wallet</a>
+                            <a href="support.html">Support</a>
+                            <hr>
+                            <button onclick="logout()" class="logout-btn">Logout</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <div class="container">
+        <div class="kyc-header">
+            <h1>Identity Verification</h1>
+            <p>Complete your KYC verification to unlock full account features</p>
+        </div>
+
+        <div class="kyc-progress">
+            <div class="progress-steps">
+                <div class="step active" data-step="1">
+                    <div class="step-number">1</div>
+                    <div class="step-label">Personal Info</div>
+                </div>
+                <div class="step" data-step="2">
+                    <div class="step-number">2</div>
+                    <div class="step-label">ID Document</div>
+                </div>
+                <div class="step" data-step="3">
+                    <div class="step-number">3</div>
+                    <div class="step-label">Address Proof</div>
+                </div>
+                <div class="step" data-step="4">
+                    <div class="step-number">4</div>
+                    <div class="step-label">Selfie</div>
+                </div>
+                <div class="step" data-step="5">
+                    <div class="step-number">5</div>
+                    <div class="step-label">Review</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="kyc-content">
+            <!-- Step 1: Personal Information -->
+            <div id="step-1" class="kyc-step active">
+                <div class="step-card">
+                    <h3>Personal Information</h3>
+                    <p>Please provide your personal details as they appear on your ID</p>
+                    
+                    <form id="personal-info-form">
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label>First Name</label>
+                                <input type="text" id="first-name" required>
+                            </div>
+                            <div class="form-group">
+                                <label>Last Name</label>
+                                <input type="text" id="last-name" required>
+                            </div>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label>Date of Birth</label>
+                            <input type="date" id="date-of-birth" required>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label>Nationality</label>
+                            <select id="nationality" required>
+                                <option value="">Select nationality</option>
+                                <option value="US">United States</option>
+                                <option value="CA">Canada</option>
+                                <option value="GB">United Kingdom</option>
+                                <option value="DE">Germany</option>
+                                <option value="FR">France</option>
+                                <option value="AU">Australia</option>
+                            </select>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label>Address</label>
+                            <input type="text" id="address" placeholder="Street address" required>
+                        </div>
+                        
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label>City</label>
+                                <input type="text" id="city" required>
+                            </div>
+                            <div class="form-group">
+                                <label>Postal Code</label>
+                                <input type="text" id="postal-code" required>
+                            </div>
+                        </div>
+                        
+                        <button type="button" onclick="nextStep()" class="btn btn-primary">Continue</button>
+                    </form>
+                </div>
+            </div>
+
+            <!-- Step 2: ID Document -->
+            <div id="step-2" class="kyc-step">
+                <div class="step-card">
+                    <h3>Identity Document</h3>
+                    <p>Upload a clear photo of your government-issued ID</p>
+                    
+                    <div class="document-types">
+                        <label class="radio-card">
+                            <input type="radio" name="id-type" value="passport" checked>
+                            <div class="card-option">
+                                <div class="doc-icon">📘</div>
+                                <div class="doc-name">Passport</div>
+                            </div>
+                        </label>
+                        <label class="radio-card">
+                            <input type="radio" name="id-type" value="license">
+                            <div class="card-option">
+                                <div class="doc-icon">🪪</div>
+                                <div class="doc-name">Driver's License</div>
+                            </div>
+                        </label>
+                        <label class="radio-card">
+                            <input type="radio" name="id-type" value="id-card">
+                            <div class="card-option">
+                                <div class="doc-icon">🆔</div>
+                                <div class="doc-name">National ID</div>
+                            </div>
+                        </label>
+                    </div>
+                    
+                    <div class="upload-area" id="id-upload">
+                        <div class="upload-content">
+                            <div class="upload-icon">📷</div>
+                            <p>Click to upload or drag and drop</p>
+                            <small>JPG, PNG up to 10MB</small>
+                        </div>
+                        <input type="file" id="id-file" accept="image/*" hidden>
+                    </div>
+                    
+                    <div class="step-actions">
+                        <button onclick="prevStep()" class="btn btn-secondary">Back</button>
+                        <button onclick="nextStep()" class="btn btn-primary">Continue</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Step 3: Address Proof -->
+            <div id="step-3" class="kyc-step">
+                <div class="step-card">
+                    <h3>Proof of Address</h3>
+                    <p>Upload a recent document showing your address (within 3 months)</p>
+                    
+                    <div class="document-types">
+                        <label class="radio-card">
+                            <input type="radio" name="address-type" value="utility" checked>
+                            <div class="card-option">
+                                <div class="doc-icon">⚡</div>
+                                <div class="doc-name">Utility Bill</div>
+                            </div>
+                        </label>
+                        <label class="radio-card">
+                            <input type="radio" name="address-type" value="bank">
+                            <div class="card-option">
+                                <div class="doc-icon">🏦</div>
+                                <div class="doc-name">Bank Statement</div>
+                            </div>
+                        </label>
+                        <label class="radio-card">
+                            <input type="radio" name="address-type" value="lease">
+                            <div class="card-option">
+                                <div class="doc-icon">🏠</div>
+                                <div class="doc-name">Lease Agreement</div>
+                            </div>
+                        </label>
+                    </div>
+                    
+                    <div class="upload-area" id="address-upload">
+                        <div class="upload-content">
+                            <div class="upload-icon">📄</div>
+                            <p>Click to upload or drag and drop</p>
+                            <small>JPG, PNG, PDF up to 10MB</small>
+                        </div>
+                        <input type="file" id="address-file" accept="image/*,.pdf" hidden>
+                    </div>
+                    
+                    <div class="step-actions">
+                        <button onclick="prevStep()" class="btn btn-secondary">Back</button>
+                        <button onclick="nextStep()" class="btn btn-primary">Continue</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Step 4: Selfie -->
+            <div id="step-4" class="kyc-step">
+                <div class="step-card">
+                    <h3>Selfie Verification</h3>
+                    <p>Take a selfie to verify your identity matches your ID document</p>
+                    
+                    <div class="selfie-instructions">
+                        <div class="instruction">
+                            <div class="instruction-icon">😊</div>
+                            <div class="instruction-text">Look directly at the camera</div>
+                        </div>
+                        <div class="instruction">
+                            <div class="instruction-icon">💡</div>
+                            <div class="instruction-text">Ensure good lighting</div>
+                        </div>
+                        <div class="instruction">
+                            <div class="instruction-icon">👤</div>
+                            <div class="instruction-text">Remove glasses and hats</div>
+                        </div>
+                    </div>
+                    
+                    <div class="selfie-area">
+                        <div id="camera-view" class="camera-container hidden">
+                            <video id="video" autoplay></video>
+                            <canvas id="canvas" hidden></canvas>
+                        </div>
+                        
+                        <div id="selfie-upload" class="upload-area">
+                            <div class="upload-content">
+                                <div class="upload-icon">🤳</div>
+                                <p>Click to take selfie or upload photo</p>
+                                <small>JPG, PNG up to 5MB</small>
+                            </div>
+                            <input type="file" id="selfie-file" accept="image/*" hidden>
+                        </div>
+                        
+                        <div class="camera-controls hidden" id="camera-controls">
+                            <button onclick="takeSelfie()" class="btn btn-primary">📸 Take Photo</button>
+                            <button onclick="stopCamera()" class="btn btn-secondary">Cancel</button>
+                        </div>
+                    </div>
+                    
+                    <div class="step-actions">
+                        <button onclick="prevStep()" class="btn btn-secondary">Back</button>
+                        <button onclick="nextStep()" class="btn btn-primary">Continue</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Step 5: Review -->
+            <div id="step-5" class="kyc-step">
+                <div class="step-card">
+                    <h3>Review & Submit</h3>
+                    <p>Please review your information before submitting</p>
+                    
+                    <div class="review-sections">
+                        <div class="review-section">
+                            <h4>Personal Information</h4>
+                            <div id="review-personal" class="review-content"></div>
+                        </div>
+                        
+                        <div class="review-section">
+                            <h4>Documents</h4>
+                            <div id="review-documents" class="review-content"></div>
+                        </div>
+                    </div>
+                    
+                    <div class="terms-agreement">
+                        <label class="checkbox">
+                            <input type="checkbox" id="terms-agree" required>
+                            <span>I confirm that all information provided is accurate and I agree to the <a href="#">Terms of Service</a></span>
+                        </label>
+                    </div>
+                    
+                    <div class="step-actions">
+                        <button onclick="prevStep()" class="btn btn-secondary">Back</button>
+                        <button onclick="submitKYC()" class="btn btn-primary">Submit for Review</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="kyc.js"></script>
+</body>
+</html>

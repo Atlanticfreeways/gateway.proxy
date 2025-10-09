@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Sign Up - Gateways Proxy</title>
+    <title>Sign Up - Freeway Cards</title>
     <link rel="stylesheet" href="style.css">
     <script src="https://accounts.google.com/gsi/client" async defer></script>
 </head>
@@ -12,13 +12,13 @@
         <div class="auth-card">
             <div class="auth-header">
                 <h1>Create Account</h1>
-                <p>Join thousands of businesses using our proxy network</p>
+                <p>Get your first virtual card in minutes</p>
             </div>
 
             <!-- Google Sign Up -->
             <div class="google-signin">
                 <div id="g_id_onload"
-                     data-client_id="80931319066-b923kattjuj7dqnsc9no94de2m77kejv.apps.googleusercontent.com"
+                     data-client_id="YOUR_GOOGLE_CLIENT_ID"
                      data-context="signup"
                      data-ux_mode="popup"
                      data-callback="handleGoogleSignUp"
@@ -43,6 +43,14 @@
                 <div class="form-group">
                     <label for="name">Full Name</label>
                     <input type="text" id="name" name="name" required>
+                </div>
+                
+                <div class="form-group">
+                    <label for="account-type">Account Type</label>
+                    <select id="account-type" name="account-type" required>
+                        <option value="individual">Individual</option>
+                        <option value="business">Business</option>
+                    </select>
                 </div>
                 
                 <div class="form-group">
@@ -74,6 +82,9 @@
             <div class="auth-footer">
                 <p>Already have an account? <a href="login.html">Sign in</a></p>
                 <p><a href="index.html">← Back to Home</a></p>
+                <div class="demo-notice">
+                    <small>Demo Mode: Use any email/password to create account</small>
+                </div>
             </div>
         </div>
     </div>
@@ -81,6 +92,13 @@
     <script>
         // Google Sign-Up Handler
         function handleGoogleSignUp(response) {
+            // Check if Google OAuth is properly configured
+            const clientId = document.querySelector('[data-client_id]').getAttribute('data-client_id');
+            if (clientId === 'YOUR_GOOGLE_CLIENT_ID') {
+                alert('Google OAuth is not configured. Please use email registration or contact support.');
+                return;
+            }
+            
             try {
                 const payload = JSON.parse(atob(response.credential.split('.')[1]));
                 
@@ -97,6 +115,7 @@
                     name: payload.name,
                     email: payload.email,
                     picture: payload.picture,
+                    accountType: 'individual', // Default for Google signup
                     verified: payload.email_verified,
                     loginMethod: 'google',
                     createdAt: new Date().toISOString()
@@ -155,10 +174,12 @@
             }
             
             // Create new user
+            const accountType = document.getElementById('account-type').value;
             users[email] = {
                 name: name,
                 email: email,
                 password: password,
+                accountType: accountType,
                 verified: false,
                 loginMethod: 'email',
                 createdAt: new Date().toISOString()

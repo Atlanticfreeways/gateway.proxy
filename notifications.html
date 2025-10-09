@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Notifications - Freeway Cards</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="nav-logo">
+                <a href="dashboard.html">Freeway Cards</a>
+            </div>
+            <button class="mobile-menu-toggle" onclick="toggleMobileMenu()">
+                <span></span>
+                <span></span>
+                <span></span>
+            </button>
+            <div class="nav-menu" id="nav-menu">
+                <a href="dashboard.html">Dashboard</a>
+                <a href="cards.html">Cards</a>
+                <a href="wallet.html">Wallet</a>
+                <a href="profile.html">Profile</a>
+                <div class="user-menu">
+                    <div class="user-dropdown">
+                        <button class="user-button" onclick="toggleUserMenu()">
+                            <span id="user-name">User</span>
+                            <span class="dropdown-arrow">▼</span>
+                        </button>
+                        <div id="user-dropdown-menu" class="dropdown-menu hidden">
+                            <a href="profile.html">Profile Settings</a>
+                            <a href="wallet.html">Wallet</a>
+                            <a href="notifications.html">Notifications</a>
+                            <a href="support.html">Support</a>
+                            <hr>
+                            <button onclick="logout()" class="logout-btn">Logout</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <div class="container">
+        <div class="notifications-header">
+            <h1>Notifications</h1>
+            <div class="header-actions">
+                <button onclick="markAllRead()" class="btn btn-secondary">Mark All Read</button>
+                <button onclick="openPreferences()" class="btn btn-primary">Preferences</button>
+            </div>
+        </div>
+
+        <div class="notifications-tabs">
+            <button class="tab-btn active" onclick="showTab('all')">All</button>
+            <button class="tab-btn" onclick="showTab('transactions')">Transactions</button>
+            <button class="tab-btn" onclick="showTab('security')">Security</button>
+            <button class="tab-btn" onclick="showTab('system')">System</button>
+        </div>
+
+        <div class="notifications-content">
+            <div id="notifications-list" class="notifications-list">
+                <!-- Notifications will be loaded here -->
+            </div>
+            
+            <div id="empty-notifications" class="empty-state hidden">
+                <div class="empty-icon">🔔</div>
+                <h3>No notifications</h3>
+                <p>You're all caught up! New notifications will appear here.</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Notification Preferences Modal -->
+    <div id="preferences-modal" class="modal hidden">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>Notification Preferences</h3>
+                <button onclick="closePreferences()">×</button>
+            </div>
+            <div class="preferences-content">
+                <div class="preference-section">
+                    <h4>Transaction Notifications</h4>
+                    <div class="preference-options">
+                        <label class="checkbox">
+                            <input type="checkbox" id="notify-all-transactions" checked>
+                            <span>All transactions</span>
+                        </label>
+                        <label class="checkbox">
+                            <input type="checkbox" id="notify-large-transactions" checked>
+                            <span>Large transactions (>$100)</span>
+                        </label>
+                        <label class="checkbox">
+                            <input type="checkbox" id="notify-declined-transactions" checked>
+                            <span>Declined transactions</span>
+                        </label>
+                        <label class="checkbox">
+                            <input type="checkbox" id="notify-international" checked>
+                            <span>International transactions</span>
+                        </label>
+                    </div>
+                </div>
+
+                <div class="preference-section">
+                    <h4>Security Notifications</h4>
+                    <div class="preference-options">
+                        <label class="checkbox">
+                            <input type="checkbox" id="notify-login" checked>
+                            <span>New login attempts</span>
+                        </label>
+                        <label class="checkbox">
+                            <input type="checkbox" id="notify-password-change" checked>
+                            <span>Password changes</span>
+                        </label>
+                        <label class="checkbox">
+                            <input type="checkbox" id="notify-card-changes" checked>
+                            <span>Card status changes</span>
+                        </label>
+                        <label class="checkbox">
+                            <input type="checkbox" id="notify-suspicious" checked>
+                            <span>Suspicious activity</span>
+                        </label>
+                    </div>
+                </div>
+
+                <div class="preference-section">
+                    <h4>System Notifications</h4>
+                    <div class="preference-options">
+                        <label class="checkbox">
+                            <input type="checkbox" id="notify-maintenance" checked>
+                            <span>Maintenance updates</span>
+                        </label>
+                        <label class="checkbox">
+                            <input type="checkbox" id="notify-features" checked>
+                            <span>New features</span>
+                        </label>
+                        <label class="checkbox">
+                            <input type="checkbox" id="notify-marketing">
+                            <span>Marketing updates</span>
+                        </label>
+                    </div>
+                </div>
+
+                <div class="preference-section">
+                    <h4>Delivery Methods</h4>
+                    <div class="preference-options">
+                        <label class="checkbox">
+                            <input type="checkbox" id="delivery-browser" checked>
+                            <span>Browser notifications</span>
+                        </label>
+                        <label class="checkbox">
+                            <input type="checkbox" id="delivery-email" checked>
+                            <span>Email notifications</span>
+                        </label>
+                        <label class="checkbox">
+                            <input type="checkbox" id="delivery-sms">
+                            <span>SMS notifications</span>
+                        </label>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="modal-actions">
+                <button onclick="savePreferences()" class="btn btn-primary">Save Preferences</button>
+                <button onclick="resetPreferences()" class="btn btn-secondary">Reset to Default</button>
+            </div>
+        </div>
+    </div>
+
+    <script src="notifications.js"></script>
+</body>
+</html>
