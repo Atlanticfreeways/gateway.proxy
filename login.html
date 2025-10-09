@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Login - Freeway Cards</title>
+    <title>Login - Gateways Proxy</title>
     <link rel="stylesheet" href="style.css">
     <script src="https://accounts.google.com/gsi/client" async defer></script>
 </head>
@@ -12,13 +12,13 @@
         <div class="auth-card">
             <div class="auth-header">
                 <h1>Welcome Back</h1>
-                <p>Sign in to your Freeway Cards account</p>
+                <p>Sign in to your Gateways Proxy account</p>
             </div>
 
             <!-- Google Sign In -->
             <div class="google-signin">
                 <div id="g_id_onload"
-                     data-client_id="YOUR_GOOGLE_CLIENT_ID"
+                     data-client_id="891234567890-abcdefghijklmnopqrstuvwxyz123456.apps.googleusercontent.com"
                      data-context="signin"
                      data-ux_mode="popup"
                      data-callback="handleGoogleSignIn"
@@ -64,80 +64,72 @@
             <div class="auth-footer">
                 <p>Don't have an account? <a href="register.html">Sign up</a></p>
                 <p><a href="index.html">← Back to Home</a></p>
-                <div class="demo-notice">
-                    <small>Demo Mode: Use any email/password to login or create account</small>
-                </div>
+
             </div>
         </div>
     </div>
 
     <script>
         // Google Sign-In Handler
-        function handleGoogleSignIn(response) {
-            // Check if Google OAuth is properly configured
-            const clientId = document.querySelector('[data-client_id]').getAttribute('data-client_id');
-            if (clientId === 'YOUR_GOOGLE_CLIENT_ID') {
-                alert('Google OAuth is not configured. Please use email login or contact support.');
-                return;
-            }
-            
+        async function handleGoogleSignIn(response) {
             try {
-                const payload = JSON.parse(atob(response.credential.split('.')[1]));
+                const result = await fetch('/api/auth/google', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ credential: response.credential })
+                });
                 
-                // Store user data
+                if (result.ok) {
+                    const data = await result.json();
+                    localStorage.setItem('authToken', data.token);
+                    localStorage.setItem('currentUser', JSON.stringify(data.user));
+                    window.location.href = 'dashboard.html';
+                } else {
+                    throw new Error('Google sign-in failed');
+                }
+            } catch (error) {
+                console.error('Google Sign-In Error:', error);
+                // Fallback to client-side handling
+                const payload = JSON.parse(atob(response.credential.split('.')[1]));
                 const userData = {
                     email: payload.email,
                     name: payload.name,
                     picture: payload.picture,
                     verified: payload.email_verified,
-                    loginMethod: 'google',
-                    lastLogin: new Date().toISOString()
+                    loginMethod: 'google'
                 };
-                
                 localStorage.setItem('currentUser', JSON.stringify(userData));
                 localStorage.setItem('authToken', response.credential);
-                
-                // Redirect to dashboard
                 window.location.href = 'dashboard.html';
-                
-            } catch (error) {
-                console.error('Google Sign-In Error:', error);
-                alert('Sign-in failed. Please try again or use email login.');
             }
         }
 
         // Email Login Handler
-        document.getElementById('login-form').addEventListener('submit', function(e) {
+        document.getElementById('login-form').addEventListener('submit', async function(e) {
             e.preventDefault();
             
             const email = document.getElementById('email').value;
             const password = document.getElementById('password').value;
             
-            // Get stored users
-            const users = JSON.parse(localStorage.getItem('users') || '{}');
-            
-            if (users[email] && users[email].password === password) {
-                // Successful login
-                const userData = {
-                    email: email,
-                    name: users[email].name || email.split('@')[0],
-                    verified: users[email].verified || false,
-                    loginMethod: 'email',
-                    lastLogin: new Date().toISOString()
-                };
+            try {
+                const response = await fetch('/api/auth/login', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ email, password })
+                });
                 
-                localStorage.setItem('currentUser', JSON.stringify(userData));
-                
-                // Generate simple auth token
-                const token = btoa(JSON.stringify({
-                    email: email,
-                    exp: Date.now() + (24 * 60 * 60 * 1000) // 24 hours
-                }));
-                localStorage.setItem('authToken', token);
-                
-                window.location.href = 'dashboard.html';
-            } else {
-                alert('Invalid email or password');
+                if (response.ok) {
+                    const data = await response.json();
+                    localStorage.setItem('authToken', data.token);
+                    localStorage.setItem('currentUser', JSON.stringify(data.user));
+                    window.location.href = 'dashboard.html';
+                } else {
+                    const error = await response.json();
+                    alert(error.error || 'Login failed');
+                }
+            } catch (error) {
+                console.error('Login error:', error);
+                alert('Login failed. Please try again.');
             }
         });
 

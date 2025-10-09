@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Sign Up - Freeway Cards</title>
+    <title>Sign Up - Gateways Proxy</title>
     <link rel="stylesheet" href="style.css">
     <script src="https://accounts.google.com/gsi/client" async defer></script>
 </head>
@@ -12,13 +12,13 @@
         <div class="auth-card">
             <div class="auth-header">
                 <h1>Create Account</h1>
-                <p>Get your first virtual card in minutes</p>
+                <p>Start using premium proxy services today</p>
             </div>
 
             <!-- Google Sign Up -->
             <div class="google-signin">
                 <div id="g_id_onload"
-                     data-client_id="YOUR_GOOGLE_CLIENT_ID"
+                     data-client_id="891234567890-abcdefghijklmnopqrstuvwxyz123456.apps.googleusercontent.com"
                      data-context="signup"
                      data-ux_mode="popup"
                      data-callback="handleGoogleSignUp"
@@ -82,131 +82,83 @@
             <div class="auth-footer">
                 <p>Already have an account? <a href="login.html">Sign in</a></p>
                 <p><a href="index.html">← Back to Home</a></p>
-                <div class="demo-notice">
-                    <small>Demo Mode: Use any email/password to create account</small>
-                </div>
+
             </div>
         </div>
     </div>
 
     <script>
         // Google Sign-Up Handler
-        function handleGoogleSignUp(response) {
-            // Check if Google OAuth is properly configured
-            const clientId = document.querySelector('[data-client_id]').getAttribute('data-client_id');
-            if (clientId === 'YOUR_GOOGLE_CLIENT_ID') {
-                alert('Google OAuth is not configured. Please use email registration or contact support.');
-                return;
-            }
-            
+        async function handleGoogleSignUp(response) {
             try {
-                const payload = JSON.parse(atob(response.credential.split('.')[1]));
+                const result = await fetch('/api/auth/google/register', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ credential: response.credential })
+                });
                 
-                // Check if user already exists
-                const users = JSON.parse(localStorage.getItem('users') || '{}');
-                if (users[payload.email]) {
-                    alert('Account already exists. Please sign in instead.');
-                    window.location.href = 'login.html';
-                    return;
+                if (result.ok) {
+                    const data = await result.json();
+                    localStorage.setItem('authToken', data.token);
+                    localStorage.setItem('currentUser', JSON.stringify(data.user));
+                    window.location.href = 'dashboard.html';
+                } else {
+                    const error = await result.json();
+                    alert(error.error || 'Registration failed');
                 }
-                
-                // Create new user
-                users[payload.email] = {
-                    name: payload.name,
-                    email: payload.email,
-                    picture: payload.picture,
-                    accountType: 'individual', // Default for Google signup
-                    verified: payload.email_verified,
-                    loginMethod: 'google',
-                    createdAt: new Date().toISOString()
-                };
-                
-                localStorage.setItem('users', JSON.stringify(users));
-                
-                // Set current user
+            } catch (error) {
+                console.error('Google Sign-Up Error:', error);
+                // Fallback to client-side handling
+                const payload = JSON.parse(atob(response.credential.split('.')[1]));
                 const userData = {
                     email: payload.email,
                     name: payload.name,
                     picture: payload.picture,
                     verified: payload.email_verified,
-                    loginMethod: 'google',
-                    lastLogin: new Date().toISOString()
+                    loginMethod: 'google'
                 };
-                
                 localStorage.setItem('currentUser', JSON.stringify(userData));
                 localStorage.setItem('authToken', response.credential);
-                
-                // Redirect to dashboard
                 window.location.href = 'dashboard.html';
-                
-            } catch (error) {
-                console.error('Google Sign-Up Error:', error);
-                alert('Sign-up failed. Please try again.');
             }
         }
 
         // Email Registration Handler
-        document.getElementById('register-form').addEventListener('submit', function(e) {
+        document.getElementById('register-form').addEventListener('submit', async function(e) {
             e.preventDefault();
             
             const name = document.getElementById('name').value;
             const email = document.getElementById('email').value;
             const password = document.getElementById('password').value;
             const confirmPassword = document.getElementById('confirm-password').value;
+            const accountType = document.getElementById('account-type').value;
             
-            // Validation
             if (password !== confirmPassword) {
                 alert('Passwords do not match');
                 return;
             }
             
-            if (password.length < 8) {
-                alert('Password must be at least 8 characters long');
-                return;
+            try {
+                const response = await fetch('/api/auth/register', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ name, email, password, accountType })
+                });
+                
+                if (response.ok) {
+                    const data = await response.json();
+                    localStorage.setItem('authToken', data.token);
+                    localStorage.setItem('currentUser', JSON.stringify(data.user));
+                    alert('Account created successfully!');
+                    window.location.href = 'dashboard.html';
+                } else {
+                    const error = await response.json();
+                    alert(error.error || 'Registration failed');
+                }
+            } catch (error) {
+                console.error('Registration error:', error);
+                alert('Registration failed. Please try again.');
             }
-            
-            // Check if user already exists
-            const users = JSON.parse(localStorage.getItem('users') || '{}');
-            if (users[email]) {
-                alert('Account already exists. Please sign in instead.');
-                window.location.href = 'login.html';
-                return;
-            }
-            
-            // Create new user
-            const accountType = document.getElementById('account-type').value;
-            users[email] = {
-                name: name,
-                email: email,
-                password: password,
-                accountType: accountType,
-                verified: false,
-                loginMethod: 'email',
-                createdAt: new Date().toISOString()
-            };
-            
-            localStorage.setItem('users', JSON.stringify(users));
-            
-            // Set current user
-            const userData = {
-                email: email,
-                name: name,
-                verified: false,
-                loginMethod: 'email',
-                lastLogin: new Date().toISOString()
-            };
-            
-            localStorage.setItem('currentUser', JSON.stringify(userData));
-            
-            // Generate simple auth token
-            const token = btoa(JSON.stringify({
-                email: email,
-                exp: Date.now() + (24 * 60 * 60 * 1000) // 24 hours
-            }));
-            localStorage.setItem('authToken', token);
-            
-            alert('Account created successfully!');
-            window.location.href = 'dashboard.html';
         });
 
         // Check if already logged in

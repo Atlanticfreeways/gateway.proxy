@@ -4,10 +4,13 @@ const jwt = require('jsonwebtoken');
 const bcrypt = require('bcrypt');
 const rateLimit = require('express-rate-limit');
 const path = require('path');
+const { OAuth2Client } = require('google-auth-library');
 
 const app = express();
 const PORT = process.env.PORT || 3000;
 const JWT_SECRET = process.env.JWT_SECRET || 'your-secret-key';
+const GOOGLE_CLIENT_ID = process.env.GOOGLE_CLIENT_ID || '891234567890-abcdefghijklmnopqrstuvwxyz123456.apps.googleusercontent.com';
+const googleClient = new OAuth2Client(GOOGLE_CLIENT_ID);
 
 // Middleware
 app.use(cors());
@@ -59,6 +62,30 @@ app.post('/api/proxy/generate', (req, res) => {
     res.status(201).json({ endpoint });
 });
 
+app.post('/api/auth/register', async (req, res) => {
+    const { name, email, password, accountType = 'individual' } = req.body;
+    
+    if (users[email]) {
+        return res.status(400).json({ error: 'User already exists' });
+    }
+    
+    const hashedPassword = await bcrypt.hash(password, 10);
+    users[email] = {
+        name,
+        email,
+        password: hashedPassword,
+        accountType,
+        verified: false,
+        createdAt: new Date().toISOString()
+    };
+    
+    const token = jwt.sign({ email }, JWT_SECRET, { expiresIn: '24h' });
+    res.status(201).json({ 
+        token, 
+        user: { email, name, accountType, verified: false } 
+    });
+});
+
 app.post('/api/auth/login', async (req, res) => {
     const { email, password } = req.body;
     const user = users[email];
@@ -67,8 +94,102 @@ app.post('/api/auth/login', async (req, res) => {
         return res.status(401).json({ error: 'Invalid credentials' });
     }
     
-    const token = jwt.sign({ email: user.email }, JWT_SECRET);
-    res.json({ token, user: { email: user.email, name: user.name } });
+    const token = jwt.sign({ email }, JWT_SECRET, { expiresIn: '24h' });
+    res.json({ 
+        token, 
+        user: { 
+            email: user.email, 
+            name: user.name, 
+            accountType: user.accountType,
+            verified: user.verified 
+        } 
+    });
+});
+
+app.post('/api/auth/google', async (req, res) => {
+    try {
+        const { credential } = req.body;
+        const ticket = await googleClient.verifyIdToken({
+            idToken: credential,
+            audience: GOOGLE_CLIENT_ID
+        });
+        
+        const payload = ticket.getPayload();
+        const { email, name, picture, email_verified } = payload;
+        
+        if (!users[email]) {
+            return res.status(404).json({ error: 'User not found. Please register first.' });
+        }
+        
+        const token = jwt.sign({ email }, JWT_SECRET, { expiresIn: '24h' });
+        res.json({ 
+            token, 
+            user: { email, name, picture, verified: email_verified } 
+        });
+    } catch (error) {
+        res.status(401).json({ error: 'Invalid Google token' });
+    }
+});
+
+app.post('/api/auth/google/register', async (req, res) => {
+    try {
+        const { credential } = req.body;
+        const ticket = await googleClient.verifyIdToken({
+            idToken: credential,
+            audience: GOOGLE_CLIENT_ID
+        });
+        
+        const payload = ticket.getPayload();
+        const { email, name, picture, email_verified } = payload;
+        
+        if (users[email]) {
+            return res.status(400).json({ error: 'User already exists' });
+        }
+        
+        users[email] = {
+            name,
+            email,
+            picture,
+            accountType: 'individual',
+            verified: email_verified,
+            loginMethod: 'google',
+            createdAt: new Date().toISOString()
+        };
+        
+        const token = jwt.sign({ email }, JWT_SECRET, { expiresIn: '24h' });
+        res.status(201).json({ 
+            token, 
+            user: { email, name, picture, verified: email_verified } 
+        });
+    } catch (error) {
+        res.status(401).json({ error: 'Invalid Google token' });
+    }
+});
+
+app.post('/api/auth/reset-password', (req, res) => {
+    const { email } = req.body;
+    
+    if (!users[email]) {
+        return res.status(404).json({ error: 'User not found' });
+    }
+    
+    // In production, send actual email with reset link
+    // For demo, just return success
+    res.json({ message: 'Password reset instructions sent' });
+});
+
+app.get('/api/user/profile', authenticateToken, (req, res) => {
+    const user = users[req.user.email];
+    if (!user) {
+        return res.status(404).json({ error: 'User not found' });
+    }
+    res.json({ 
+        email: user.email, 
+        name: user.name, 
+        accountType: user.accountType,
+        verified: user.verified,
+        picture: user.picture 
+    });
 });
 
 app.get('/api/proxies', authenticateToken, (req, res) => {
