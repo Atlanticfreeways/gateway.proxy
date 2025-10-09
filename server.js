@@ -1,9 +1,9 @@
-// Backend API - Node.js/Express server
 const express = require('express');
 const cors = require('cors');
 const jwt = require('jsonwebtoken');
 const bcrypt = require('bcrypt');
 const rateLimit = require('express-rate-limit');
+const path = require('path');
 
 const app = express();
 const PORT = process.env.PORT || 3000;
@@ -12,19 +12,18 @@ const JWT_SECRET = process.env.JWT_SECRET || 'your-secret-key';
 // Middleware
 app.use(cors());
 app.use(express.json());
-app.use(express.static('public'));
+app.use(express.static('.'));
 
 // Rate limiting
 const limiter = rateLimit({
-    windowMs: 15 * 60 * 1000, // 15 minutes
-    max: 100 // limit each IP to 100 requests per windowMs
+    windowMs: 15 * 60 * 1000,
+    max: 100
 });
 app.use('/api/', limiter);
 
-// In-memory storage (replace with real database)
+// In-memory storage
 let users = {};
 let proxies = {};
-let transactions = {};
 
 // Auth middleware
 const authenticateToken = (req, res, next) => {
@@ -40,23 +39,24 @@ const authenticateToken = (req, res, next) => {
     });
 };
 
-// Auth routes
-app.post('/api/auth/register', async (req, res) => {
-    const { email, password, name } = req.body;
-    
-    if (users[email]) {
-        return res.status(400).json({ error: 'User already exists' });
-    }
-    
-    const hashedPassword = await bcrypt.hash(password, 10);
-    users[email] = {
-        email,
-        name,
-        password: hashedPassword,
-        createdAt: new Date().toISOString()
+// API Routes
+app.get('/api/health', (req, res) => {
+    res.json({ status: 'ok', timestamp: new Date().toISOString() });
+});
+
+app.post('/api/proxy/generate', (req, res) => {
+    const { type = 'residential', country = 'US' } = req.body;
+    const endpoint = {
+        id: Date.now().toString(),
+        type,
+        country,
+        host: `proxy-${type.substr(0, 3)}-${country.toLowerCase()}-01.gateways-proxy.com`,
+        port: 8080,
+        username: `user_${Math.random().toString(36).substr(2, 8)}`,
+        password: Math.random().toString(36).substr(2, 12),
+        status: 'active'
     };
-    
-    res.json({ message: 'User created successfully' });
+    res.status(201).json({ endpoint });
 });
 
 app.post('/api/auth/login', async (req, res) => {
@@ -71,52 +71,14 @@ app.post('/api/auth/login', async (req, res) => {
     res.json({ token, user: { email: user.email, name: user.name } });
 });
 
-// Proxy routes
 app.get('/api/proxies', authenticateToken, (req, res) => {
     const userProxies = Object.values(proxies).filter(p => p.userId === req.user.email);
     res.json(userProxies);
 });
 
-app.post('/api/proxies', authenticateToken, (req, res) => {
-    const id = Date.now().toString();
-    const proxy = {
-        id,
-        userId: req.user.email,
-        ...req.body,
-        createdAt: new Date().toISOString()
-    };
-    proxies[id] = proxy;
-    res.json(proxy);
-});
-
-// Payment routes
-app.get('/api/payments/transactions', authenticateToken, (req, res) => {
-    const userTransactions = Object.values(transactions).filter(t => t.userId === req.user.email);
-    res.json(userTransactions);
-});
-
-app.post('/api/payments/create', authenticateToken, (req, res) => {
-    const id = Date.now().toString();
-    const transaction = {
-        id,
-        userId: req.user.email,
-        ...req.body,
-        status: 'pending',
-        createdAt: new Date().toISOString()
-    };
-    transactions[id] = transaction;
-    res.json(transaction);
-});
-
-// User routes
-app.get('/api/user/profile', authenticateToken, (req, res) => {
-    const user = users[req.user.email];
-    res.json({ email: user.email, name: user.name });
-});
-
-// Health check
-app.get('/api/health', (req, res) => {
-    res.json({ status: 'OK', timestamp: new Date().toISOString() });
+// Serve static files
+app.get('/', (req, res) => {
+    res.sendFile(path.join(__dirname, 'index.html'));
 });
 
 // Error handling
@@ -125,6 +87,10 @@ app.use((err, req, res, next) => {
     res.status(500).json({ error: 'Something went wrong!' });
 });
 
-app.listen(PORT, () => {
-    console.log(`Server running on port ${PORT}`);
-});
+if (require.main === module) {
+    app.listen(PORT, () => {
+        console.log(`Server running on port ${PORT}`);
+    });
+}
+
+module.exports = app;

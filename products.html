@@ -11,7 +11,7 @@
 <div class="nav-left">
 <a href="index.html" class="logo">🌐 Gateways</a>
 <a href="products.html">Products</a>
-<a href="wallet.html">Wallet</a>
+<a href="dashboard.html">Dashboard</a>
 <a href="index.html#about">About</a>
 </div>
 <div class="nav-right">
@@ -22,30 +22,89 @@
 </div>
 
 <div class="hero" style="padding:4rem 2rem">
-<h1>Our Proxy Services</h1>
-<p>High-performance proxy solutions for all your needs</p>
+<h1>Premium Proxy Services</h1>
+<p>Enterprise-grade proxy solutions with 99.9% uptime and global coverage</p>
 </div>
 
 <div class="container">
 <div class="section">
-<h2>Proxy Types</h2>
-<div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:1.5rem;margin-top:2rem">
-<div style="padding:1.5rem;background:rgba(255,255,255,.9);border-radius:10px;border:1px solid rgba(102,126,234,.2)">
-<h3 style="color:#667eea;margin-bottom:1rem">Residential Proxies</h3>
-<p style="color:#636e72;font-size:0.95rem">Real residential IPs for high success rates in web scraping and data collection.</p>
+<h2>Proxy Solutions</h2>
+<div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:2rem;margin-top:2rem">
+<div style="padding:2rem;background:#fff;border-radius:12px;box-shadow:0 4px 6px rgba(0,0,0,0.1);border:1px solid #e2e8f0">
+<div style="font-size:2rem;margin-bottom:1rem">🏠</div>
+<h3 style="color:#2563eb;margin-bottom:1rem">Residential Proxies</h3>
+<p style="color:#64748b;margin-bottom:1rem">Real residential IPs from ISPs worldwide. Perfect for web scraping, social media management, and market research.</p>
+<ul style="color:#64748b;font-size:0.9rem">
+<li>✓ 10M+ residential IPs</li>
+<li>✓ 100+ countries</li>
+<li>✓ 99.9% uptime</li>
+<li>✓ Sticky sessions</li>
+</ul>
 </div>
-<div style="padding:1.5rem;background:rgba(255,255,255,.9);border-radius:10px;border:1px solid rgba(102,126,234,.2)">
-<h3 style="color:#667eea;margin-bottom:1rem">Datacenter Proxies</h3>
-<p style="color:#636e72;font-size:0.95rem">High-speed datacenter IPs perfect for bulk operations and automated tasks.</p>
+<div style="padding:2rem;background:#fff;border-radius:12px;box-shadow:0 4px 6px rgba(0,0,0,0.1);border:1px solid #e2e8f0">
+<div style="font-size:2rem;margin-bottom:1rem">🏢</div>
+<h3 style="color:#2563eb;margin-bottom:1rem">Datacenter Proxies</h3>
+<p style="color:#64748b;margin-bottom:1rem">High-speed datacenter IPs for bulk operations, SEO monitoring, and automated tasks requiring speed.</p>
+<ul style="color:#64748b;font-size:0.9rem">
+<li>✓ 1Gbps+ speeds</li>
+<li>✓ 50+ locations</li>
+<li>✓ HTTP & SOCKS5</li>
+<li>✓ Unlimited bandwidth</li>
+</ul>
+</div>
+<div style="padding:2rem;background:#fff;border-radius:12px;box-shadow:0 4px 6px rgba(0,0,0,0.1);border:1px solid #e2e8f0">
+<div style="font-size:2rem;margin-bottom:1rem">📱</div>
+<h3 style="color:#2563eb;margin-bottom:1rem">Mobile Proxies</h3>
+<p style="color:#64748b;margin-bottom:1rem">4G/5G mobile IPs for social media automation, app testing, and mobile-specific use cases.</p>
+<ul style="color:#64748b;font-size:0.9rem">
+<li>✓ Real mobile IPs</li>
+<li>✓ 4G/5G networks</li>
+<li>✓ Dynamic rotation</li>
+<li>✓ High success rates</li>
+</ul>
 </div>
 </div>
 </div>
 
-
-
-<h1 style="text-align:center;margin:3rem 0 2rem;color:#2c3e50;font-size:2rem">Available Plans</h1>
-<div id="productsContainer" class="products-grid"></div>
-
+<div class="section" style="margin-top:4rem">
+<h2 style="text-align:center;margin-bottom:3rem">Choose Your Plan</h2>
+<div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:2rem">
+<div style="padding:2rem;background:#fff;border-radius:12px;box-shadow:0 4px 6px rgba(0,0,0,0.1);text-align:center">
+<h3 style="color:#2563eb">Starter</h3>
+<div style="font-size:2rem;font-weight:bold;color:#1f2937;margin:1rem 0">$29<span style="font-size:1rem;color:#64748b">/month</span></div>
+<ul style="text-align:left;color:#64748b;margin:1.5rem 0">
+<li>✓ 10GB bandwidth</li>
+<li>✓ HTTP & SOCKS5</li>
+<li>✓ 5 concurrent connections</li>
+<li>✓ Email support</li>
+</ul>
+<button onclick="selectPlan('starter')" style="background:#2563eb;color:white;border:none;padding:0.75rem 2rem;border-radius:6px;cursor:pointer;width:100%">Get Started</button>
+</div>
+<div style="padding:2rem;background:#fff;border-radius:12px;box-shadow:0 4px 6px rgba(0,0,0,0.1);text-align:center;border:2px solid #2563eb;position:relative">
+<div style="position:absolute;top:-10px;left:50%;transform:translateX(-50%);background:#2563eb;color:white;padding:0.25rem 1rem;border-radius:20px;font-size:0.8rem">Most Popular</div>
+<h3 style="color:#2563eb">Professional</h3>
+<div style="font-size:2rem;font-weight:bold;color:#1f2937;margin:1rem 0">$99<span style="font-size:1rem;color:#64748b">/month</span></div>
+<ul style="text-align:left;color:#64748b;margin:1.5rem 0">
+<li>✓ 100GB bandwidth</li>
+<li>✓ Residential proxies</li>
+<li>✓ 50 concurrent connections</li>
+<li>✓ Priority support</li>
+</ul>
+<button onclick="selectPlan('professional')" style="background:#2563eb;color:white;border:none;padding:0.75rem 2rem;border-radius:6px;cursor:pointer;width:100%">Get Started</button>
+</div>
+<div style="padding:2rem;background:#fff;border-radius:12px;box-shadow:0 4px 6px rgba(0,0,0,0.1);text-align:center">
+<h3 style="color:#2563eb">Enterprise</h3>
+<div style="font-size:2rem;font-weight:bold;color:#1f2937;margin:1rem 0">$299<span style="font-size:1rem;color:#64748b">/month</span></div>
+<ul style="text-align:left;color:#64748b;margin:1.5rem 0">
+<li>✓ Unlimited bandwidth</li>
+<li>✓ All proxy types</li>
+<li>✓ Unlimited connections</li>
+<li>✓ Dedicated support</li>
+</ul>
+<button onclick="selectPlan('enterprise')" style="background:#2563eb;color:white;border:none;padding:0.75rem 2rem;border-radius:6px;cursor:pointer;width:100%">Contact Sales</button>
+</div>
+</div>
+</div>
 
 </div>
 
@@ -87,6 +146,25 @@
 <p>&copy; 2024 Gateways. All rights reserved.</p>
 </div>
 </div>
+
+<script>
+function selectPlan(plan) {
+    // Store selected plan
+    localStorage.setItem('selectedPlan', plan);
+    
+    // Redirect to registration or checkout
+    const currentUser = localStorage.getItem('currentUser');
+    if (currentUser) {
+        window.location.href = 'cart.html';
+    } else {
+        window.location.href = 'register.html';
+    }
+}
+
+function toggleTheme() {
+    document.body.classList.toggle('dark-theme');
+}
+</script>
 <script src="app.js"></script>
 </body>
 </html>

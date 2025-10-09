@@ -6,12 +6,14 @@
     <title>Dashboard - Gateways Proxy</title>
     <link rel="stylesheet" href="style.css">
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="js/core.js"></script>
+    <script src="js/dashboard.js"></script>
 </head>
 <body>
     <nav class="navbar">
         <div class="nav-container">
             <div class="nav-logo">
-                <a href="dashboard.html">Freeway Cards</a>
+                <a href="dashboard.html">🌐 Gateways Proxy</a>
             </div>
             <button class="mobile-menu-toggle" onclick="toggleMobileMenu()">
                 <span></span>
@@ -20,8 +22,8 @@
             </button>
             <div class="nav-menu" id="nav-menu">
                 <a href="dashboard.html" class="active">Dashboard</a>
-                <a href="cards.html">Cards</a>
-                <a href="wallet.html">Wallet</a>
+                <a href="proxy-manager.html">Proxies</a>
+                <a href="products.html">Products</a>
                 <a href="profile.html">Profile</a>
                 <div class="user-menu">
                     <div class="user-dropdown">
@@ -31,7 +33,7 @@
                         </button>
                         <div id="user-dropdown-menu" class="dropdown-menu hidden">
                             <a href="profile.html">Profile Settings</a>
-                            <a href="wallet.html">Wallet</a>
+                            <a href="products.html">Products</a>
                             <a href="support.html">Support</a>
                             <hr>
                             <button onclick="logout()" class="logout-btn">Logout</button>
@@ -44,73 +46,174 @@
 
     <div class="container">
         <div class="dashboard-header">
-            <h1>Welcome back, <span id="welcome-name">User</span></h1>
-            <p>Here's your account overview</p>
+            <div class="header-content">
+                <div>
+                    <h1>Welcome back, <span id="welcome-name">User</span></h1>
+                    <p>Monitor your proxy usage and performance in real-time</p>
+                </div>
+                <div class="header-actions">
+                    <button onclick="generateEndpoint()" class="btn btn-primary">Generate Endpoint</button>
+                    <button onclick="openApiDocs()" class="btn btn-secondary">API Docs</button>
+                </div>
+            </div>
         </div>
 
         <div class="stats-grid">
             <div class="stat-card">
-                <h3>Active Cards</h3>
-                <div class="stat-number" id="active-cards">0</div>
-                <div class="stat-change positive">+2 this week</div>
+                <div class="stat-icon">🌐</div>
+                <div class="stat-content">
+                    <h3>Active Endpoints</h3>
+                    <div class="stat-number" id="active-proxies">12</div>
+                    <div class="stat-change positive">+3 this week</div>
+                </div>
             </div>
             <div class="stat-card">
-                <h3>Wallet Balance</h3>
-                <div class="stat-number" id="wallet-balance">$0.00</div>
-                <div class="stat-change">Available funds</div>
+                <div class="stat-icon">📊</div>
+                <div class="stat-content">
+                    <h3>Bandwidth Used</h3>
+                    <div class="stat-number" id="bandwidth-used">24.7 GB</div>
+                    <div class="stat-change">of 50 GB plan</div>
+                </div>
             </div>
             <div class="stat-card">
-                <h3>This Month</h3>
-                <div class="stat-number" id="monthly-spending">$0</div>
-                <div class="stat-change positive">Total spending</div>
+                <div class="stat-icon">✅</div>
+                <div class="stat-content">
+                    <h3>Success Rate</h3>
+                    <div class="stat-number" id="success-rate">99.8%</div>
+                    <div class="stat-change positive">Last 24h</div>
+                </div>
             </div>
             <div class="stat-card">
-                <h3>Account Status</h3>
-                <div class="stat-number" id="account-status">Active</div>
-                <div class="stat-change">Next billing: Dec 15</div>
+                <div class="stat-icon">⚡</div>
+                <div class="stat-content">
+                    <h3>Avg Response</h3>
+                    <div class="stat-number" id="avg-response">187ms</div>
+                    <div class="stat-change positive">-12ms vs yesterday</div>
+                </div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-icon">💳</div>
+                <div class="stat-content">
+                    <h3>Current Plan</h3>
+                    <div class="stat-number" id="current-plan">Growth</div>
+                    <div class="stat-change">Renews Dec 15</div>
+                </div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-icon">🔄</div>
+                <div class="stat-content">
+                    <h3>Requests Today</h3>
+                    <div class="stat-number" id="requests-today">8,247</div>
+                    <div class="stat-change positive">+15% vs yesterday</div>
+                </div>
             </div>
         </div>
 
         <div class="dashboard-grid">
             <div class="dashboard-card">
-                <h3>My Cards</h3>
-                <div id="cards-overview" class="cards-overview">
-                    <!-- Cards will be loaded here -->
+                <div class="card-header">
+                    <h3>Active Endpoints</h3>
+                    <button onclick="generateEndpoint()" class="btn-small btn-primary">+ New Endpoint</button>
                 </div>
-                <div class="card-actions">
-                    <a href="cards.html" class="btn btn-primary">View All Cards</a>
-                    <button onclick="openCreateCardModal()" class="btn btn-secondary">Create New</button>
+                <div id="proxy-overview" class="proxy-overview">
+                    <!-- Proxy endpoints will be loaded here -->
+                </div>
+                <div class="card-footer">
+                    <a href="proxy-manager.html" class="view-all-link">Manage all endpoints →</a>
                 </div>
             </div>
             
             <div class="dashboard-card">
-                <h3>Spending Analytics</h3>
-                <canvas id="spendingChart"></canvas>
+                <div class="card-header">
+                    <h3>Usage Analytics</h3>
+                    <select id="analytics-period" class="period-selector">
+                        <option value="24h">Last 24 hours</option>
+                        <option value="7d">Last 7 days</option>
+                        <option value="30d">Last 30 days</option>
+                    </select>
+                </div>
+                <canvas id="usageChart"></canvas>
+                <div class="chart-legend">
+                    <div class="legend-item">
+                        <span class="legend-color" style="background: #2563eb;"></span>
+                        <span>Residential</span>
+                    </div>
+                    <div class="legend-item">
+                        <span class="legend-color" style="background: #059669;"></span>
+                        <span>Datacenter</span>
+                    </div>
+                    <div class="legend-item">
+                        <span class="legend-color" style="background: #dc2626;"></span>
+                        <span>Mobile</span>
+                    </div>
+                </div>
             </div>
             
             <div class="dashboard-card">
-                <h3>Recent Transactions</h3>
-                <div id="recent-transactions" class="transactions-feed">
-                    <!-- Transactions will be loaded here -->
+                <div class="card-header">
+                    <h3>Performance Monitor</h3>
+                    <div class="status-indicator">
+                        <span class="status-dot active"></span>
+                        <span>All systems operational</span>
+                    </div>
                 </div>
-                <a href="wallet.html" class="view-all-link">View all transactions →</a>
+                <div class="performance-metrics">
+                    <div class="metric-row">
+                        <span class="metric-label">Global Success Rate</span>
+                        <div class="metric-bar">
+                            <div class="metric-fill" style="width: 99.8%;"></div>
+                        </div>
+                        <span class="metric-value">99.8%</span>
+                    </div>
+                    <div class="metric-row">
+                        <span class="metric-label">Average Response Time</span>
+                        <div class="metric-bar">
+                            <div class="metric-fill" style="width: 85%;"></div>
+                        </div>
+                        <span class="metric-value">187ms</span>
+                    </div>
+                    <div class="metric-row">
+                        <span class="metric-label">Uptime (24h)</span>
+                        <div class="metric-bar">
+                            <div class="metric-fill" style="width: 100%;"></div>
+                        </div>
+                        <span class="metric-value">100%</span>
+                    </div>
+                </div>
+                <div class="card-footer">
+                    <a href="analytics.html" class="view-all-link">View detailed analytics →</a>
+                </div>
             </div>
             
             <div class="dashboard-card">
                 <h3>Quick Actions</h3>
                 <div class="quick-actions">
-                    <button onclick="openCreateCardModal()" class="action-btn">
-                        <div class="action-icon">💳</div>
+                    <button onclick="generateEndpoint()" class="action-btn">
+                        <div class="action-icon">🌐</div>
                         <div class="action-content">
-                            <h4>Create Card</h4>
-                            <p>Generate new virtual card</p>
+                            <h4>Generate Endpoint</h4>
+                            <p>Create residential or datacenter proxy</p>
                         </div>
                     </button>
-                    <a href="wallet.html" class="action-btn">
-                        <div class="action-icon">💰</div>
+                    <a href="api-docs.html" class="action-btn">
+                        <div class="action-icon">📚</div>
                         <div class="action-content">
-                            <h4>Fund Wallet</h4>
-                            <p>Add money to your account</p>
+                            <h4>API Documentation</h4>
+                            <p>Integration guides and examples</p>
+                        </div>
+                    </a>
+                    <a href="analytics.html" class="action-btn">
+                        <div class="action-icon">📊</div>
+                        <div class="action-content">
+                            <h4>Advanced Analytics</h4>
+                            <p>Detailed usage and performance metrics</p>
+                        </div>
+                    </a>
+                    <a href="billing.html" class="action-btn">
+                        <div class="action-icon">💳</div>
+                        <div class="action-content">
+                            <h4>Billing & Usage</h4>
+                            <p>Manage plans and view invoices</p>
                         </div>
                     </a>
                     <a href="support.html" class="action-btn">
@@ -156,85 +259,73 @@
         // Load user statistics
         function loadUserStats() {
             const currentUser = JSON.parse(localStorage.getItem('currentUser'));
-            const cards = JSON.parse(localStorage.getItem('userCards') || '[]');
-            const wallets = JSON.parse(localStorage.getItem('wallets') || '{}');
+            const proxyData = JSON.parse(localStorage.getItem('proxyData') || '{}');
             
-            const userCards = cards.filter(c => c.userId === currentUser.email);
-            const activeCards = userCards.filter(c => c.status === 'active');
-            const userWallet = wallets[currentUser.email] || { balance: 0, transactions: [] };
+            const userProxies = proxyData[currentUser.email] || { endpoints: [], usage: { bandwidth: 0, requests: 0 } };
+            const activeProxies = userProxies.endpoints ? userProxies.endpoints.filter(p => p.status === 'active').length : 0;
             
-            // Calculate monthly spending from wallet transactions
-            const monthlySpending = userWallet.transactions
-                .filter(t => {
-                    const transactionDate = new Date(t.date);
-                    const now = new Date();
-                    return transactionDate.getMonth() === now.getMonth() && 
-                           transactionDate.getFullYear() === now.getFullYear() &&
-                           t.type === 'debit';
-                })
-                .reduce((sum, t) => sum + t.amount, 0);
-            
-            document.getElementById('active-cards').textContent = activeCards.length;
-            document.getElementById('wallet-balance').textContent = `$${userWallet.balance.toFixed(2)}`;
-            document.getElementById('monthly-spending').textContent = `$${monthlySpending.toFixed(2)}`;
+            document.getElementById('active-proxies').textContent = activeProxies;
+            document.getElementById('bandwidth-used').textContent = `${(userProxies.usage.bandwidth / 1024).toFixed(1)} GB`;
+            document.getElementById('success-rate').textContent = '99.9%';
         }
 
-        // Load cards overview
-        function loadCardsOverview() {
-            const cards = JSON.parse(localStorage.getItem('userCards') || '[]');
-            const userCards = cards.filter(c => c.userId === JSON.parse(localStorage.getItem('currentUser')).email);
-            const cardsOverview = document.getElementById('cards-overview');
-            
-            if (userCards.length === 0) {
-                cardsOverview.innerHTML = '<div class="empty-cards"><p>No cards yet</p><button onclick="openCreateCardModal()" class="btn btn-primary">Create Your First Card</button></div>';
-                return;
-            }
-            
-            cardsOverview.innerHTML = userCards.slice(0, 3).map(card => `
-                <div class="card-mini ${card.type} ${card.status}">
-                    <div class="card-mini-brand">${card.type.toUpperCase()}</div>
-                    <div class="card-mini-name">${card.name}</div>
-                    <div class="card-mini-balance">$${card.balance.toFixed(2)}</div>
-                    <div class="card-mini-status ${card.status}">${card.status}</div>
-                </div>
-            `).join('');
-        }
-        
-        // Load recent transactions
-        function loadRecentTransactions() {
-            const wallets = JSON.parse(localStorage.getItem('wallets') || '{}');
+        // Load proxy overview
+        function loadProxyOverview() {
             const currentUser = JSON.parse(localStorage.getItem('currentUser'));
-            const userWallet = wallets[currentUser.email];
-            const transactionsFeed = document.getElementById('recent-transactions');
+            const proxyData = JSON.parse(localStorage.getItem('proxyData') || '{}');
+            const userProxies = proxyData[currentUser.email] || { endpoints: [] };
+            const proxyOverview = document.getElementById('proxy-overview');
             
-            if (!userWallet || userWallet.transactions.length === 0) {
-                transactionsFeed.innerHTML = '<div class="empty-transactions"><p>No transactions yet</p></div>';
+            if (!userProxies.endpoints || userProxies.endpoints.length === 0) {
+                proxyOverview.innerHTML = '<div class="empty-proxies"><p>No proxy endpoints yet</p><button onclick="generateEndpoint()" class="btn btn-primary">Generate Your First Endpoint</button></div>';
                 return;
             }
             
-            const recentTransactions = userWallet.transactions.slice(0, 5);
-            transactionsFeed.innerHTML = recentTransactions.map(transaction => `
-                <div class="transaction-mini">
-                    <div class="transaction-mini-info">
-                        <div class="transaction-mini-desc">${transaction.description}</div>
-                        <div class="transaction-mini-date">${new Date(transaction.date).toLocaleDateString()}</div>
+            proxyOverview.innerHTML = userProxies.endpoints.slice(0, 3).map(proxy => `
+                <div class="proxy-mini ${proxy.type} ${proxy.status}">
+                    <div class="proxy-mini-type">${proxy.type.toUpperCase()}</div>
+                    <div class="proxy-mini-location">${proxy.location}</div>
+                    <div class="proxy-mini-endpoint">${proxy.endpoint}</div>
+                    <div class="proxy-mini-status ${proxy.status}">${proxy.status}</div>
+                </div>
+            `).join('');
+        }
+        
+        // Load recent activity
+        function loadRecentActivity() {
+            const currentUser = JSON.parse(localStorage.getItem('currentUser'));
+            const proxyData = JSON.parse(localStorage.getItem('proxyData') || '{}');
+            const userProxies = proxyData[currentUser.email] || { activity: [] };
+            const activityFeed = document.getElementById('recent-activity');
+            
+            if (!userProxies.activity || userProxies.activity.length === 0) {
+                activityFeed.innerHTML = '<div class="empty-activity"><p>No recent activity</p></div>';
+                return;
+            }
+            
+            const recentActivity = userProxies.activity.slice(0, 5);
+            activityFeed.innerHTML = recentActivity.map(activity => `
+                <div class="activity-mini">
+                    <div class="activity-mini-info">
+                        <div class="activity-mini-desc">${activity.description}</div>
+                        <div class="activity-mini-date">${new Date(activity.date).toLocaleDateString()}</div>
                     </div>
-                    <div class="transaction-mini-amount ${transaction.type}">
-                        ${transaction.type === 'credit' ? '+' : '-'}$${transaction.amount.toFixed(2)}
+                    <div class="activity-mini-status ${activity.status}">
+                        ${activity.status}
                     </div>
                 </div>
             `).join('');
         }
         
-        // Create spending chart
-        function createSpendingChart() {
-            const ctx = document.getElementById('spendingChart').getContext('2d');
+        // Create usage chart
+        function createUsageChart() {
+            const ctx = document.getElementById('usageChart').getContext('2d');
             new Chart(ctx, {
                 type: 'doughnut',
                 data: {
-                    labels: ['Cards', 'Transfers', 'Fees'],
+                    labels: ['HTTP', 'SOCKS5', 'Residential'],
                     datasets: [{
-                        data: [65, 30, 5],
+                        data: [45, 35, 20],
                         backgroundColor: ['#2563eb', '#059669', '#dc2626']
                     }]
                 },
@@ -276,9 +367,9 @@
             window.location.href = 'index.html';
         }
 
-        // Open create card modal
-        function openCreateCardModal() {
-            window.location.href = 'cards.html';
+        // Generate proxy endpoint
+        function generateEndpoint() {
+            window.location.href = 'proxy-manager.html';
         }
         
         // Initialize dashboard
@@ -292,9 +383,9 @@
             
             // Load all dashboard data
             loadUserStats();
-            loadCardsOverview();
-            loadRecentTransactions();
-            createSpendingChart();
+            loadProxyOverview();
+            loadRecentActivity();
+            createUsageChart();
         }
         
         // Initialize on page load
